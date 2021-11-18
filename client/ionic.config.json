@@ -1,7 +1,0 @@
-{
-  "name": "ionicappbar",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "vue"
-}
