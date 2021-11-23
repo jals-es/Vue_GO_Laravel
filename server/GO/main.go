@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"appbar/router"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	var r = gin.Default()
+	r := gin.Default()
 
 	//Los nombres de las funciones en mayuscula, PERFAVOR
 	router.GeneralRouter(r.Group("/api"))

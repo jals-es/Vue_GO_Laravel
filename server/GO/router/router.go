@@ -1,10 +1,11 @@
 package router
 
 import (
+	"appbar/users"
+
 	"github.com/gin-gonic/gin"
-	"appbar/products"
 )
 
 func GeneralRouter(router *gin.RouterGroup) {
-	products.ProductRoutes(router.Group("/prod"))
+	users.UsersRoutes(router.Group("/user"))
 }
