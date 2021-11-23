@@ -45,19 +45,27 @@ class BarController extends Controller
                 'message' => 'Forbidden'
             ], 403);
         }
-        return response()->json(['message' => 'Post create succesfully' . $token], 201);
     }
+    public function stats(Request $request) {
+        $bar = new Bar();
 
+        return response()->json(['message' => $bar->getOrders($request->id_bar)], 201);
+
+
+        return response()->json(['message' => $bar->getStats($request->id_bar)], 201);
+
+        // return new Bar->monthlyOrders()
+    }
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\BarRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function create(BarRequest $request)
+    public function create(Request $request)
     {
         //
-        return response()->json(['message' => 'Post create succesfully'], 201);
+        return response()->json(['message' => 'Post create succesfully create'], 201);
     }
 
     /**
@@ -68,7 +76,7 @@ class BarController extends Controller
      */
     public function info(Bar $bar)
     {
-        return response()->json(['message' => 'Post create succesfully'], 201);
+        return response()->json(['message' => 'Post create succesfully info'], 201);
     }
 
     /**

@@ -12,6 +12,7 @@ use Mockery\Undefined;
 
 class AuthController extends Controller
 {
+    
     public function auth(Request $request)
     {
         //Get the info
