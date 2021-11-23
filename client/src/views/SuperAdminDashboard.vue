@@ -162,50 +162,15 @@
       </div>
     </div>
 
-    <section class="statistics mt-4">
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
-            <i class="uil-envelope-shield fs-2 text-center bg-primary rounded-circle"></i>
-            <div class="ms-3">
-              <div class="d-flex align-items-center">
-                <h3 class="mb-0">1,245</h3> <span class="d-block ms-2">Emails</span>
-              </div>
-              <p class="fs-normal mb-0">Lorem ipsum dolor sit amet</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
-            <i class="uil-file fs-2 text-center bg-danger rounded-circle"></i>
-            <div class="ms-3">
-              <div class="d-flex align-items-center">
-                <h3 class="mb-0">34</h3> <span class="d-block ms-2">Projects</span>
-              </div>
-              <p class="fs-normal mb-0">Lorem ipsum dolor sit amet</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="box d-flex rounded-2 align-items-center p-3">
-            <i class="uil-users-alt fs-2 text-center bg-success rounded-circle"></i>
-            <div class="ms-3">
-              <div class="d-flex align-items-center">
-                <h3 class="mb-0">5,245</h3> <span class="d-block ms-2">Users</span>
-              </div>
-              <p class="fs-normal mb-0">Lorem ipsum dolor sit amet</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <DashStats></DashStats>
+
 
     <section class="charts mt-4">
       <div class="row">
         <div class="col-lg-6">
           <div class="chart-container rounded-2 p-3">
             <h3 class="fs-6 mb-3">Chart title number one</h3>
-            <canvas id="myChart"></canvas>
+            <SuperAdminDashChart1></SuperAdminDashChart1>
           </div>
         </div>
         <div class="col-lg-6">
@@ -337,23 +302,33 @@
         </div>
       </div>
     </section>
-
     <section class="charts mt-4">
       <div class="chart-container p-3">
-        <h3 class="fs-6 mb-3">Chart title number three</h3>
+        <h3 class="fs-6 mb-3">Chart title number three </h3>
         <div style="height: 300px">
           <canvas id="chart3" width="100%"></canvas>
         </div>
       </div>
     </section>
   </div>
-</section>  </div>
+</section> 
+            <SuperAdminDashChart1></SuperAdminDashChart1>
+
+</div>
+
 </template>
 
 <script>
+import DashStats from "../components/SuperAdminDashStats.vue";
+import SuperAdminDashChart1 from "../components/SuperAdminChart1.vue"
 // @ is an alias to /src
 export default {
-  name: 'SuperAdminDashboard',
+  components: { DashStats, SuperAdminDashChart1 },
+    name: 'SuperAdminDashboard',
+    props: {
+        algo: String
+    },
+
 
 }
 
@@ -537,24 +512,6 @@ body {
 /** --------------------------------
  -- Statistics
 -------------------------------- */
-.statistics {
-	color: #E5E7EB;
-}
-
-.statistics .box {
-	background-color: #313348;
-}
-
-.statistics .box i {
-	width: 60px;
-	height: 60px;
-	line-height: 60px;
-}
-
-.statistics .box p {
-	color: #9CA3AF;
-}
-
 
 
 
