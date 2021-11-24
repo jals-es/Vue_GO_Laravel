@@ -12,7 +12,7 @@ use Mockery\Undefined;
 
 class AuthController extends Controller
 {
-    
+
     public function auth(Request $request)
     {
         //Get the info
@@ -23,6 +23,7 @@ class AuthController extends Controller
             ->get();
         if (!$isSuperAdmin->isEmpty()) {
             //User exists
+
             if ($request->ip() == env("ALLOWED_SERVER")) {
                 //Its from a safe server
                 //Get the key
@@ -45,7 +46,9 @@ class AuthController extends Controller
                 //User can login but not from a safe server
                 return response()->json([
                     'success' => false,
-                    'message' => 'Forbidden'
+                    'message' => 'Forbidden',
+                    'ip' => $request->ip(),
+                    'acceped' => env("ALLOWED_SERVER")
                 ], 403);
             }
         } else {
