@@ -273,7 +273,6 @@
       <div class="row">
         <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
           <div class="box bg-primary p-3">
-            <v-icon name="sync" scale="4" spin/>
             <h3>5,154</h3>
             <p class="lead">Page views</p>
             
