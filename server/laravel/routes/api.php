@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\BarController;
+use App\Http\Controllers\Api\V1\ChartsController;
 use App\Http\Controllers\Api\V2\AuthController;
 
 
@@ -23,21 +24,26 @@ use App\Http\Controllers\Api\V2\AuthController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-Route::name('api.')->group(function () {
-    Route::name('bars.')->group(function () {
+// Route::middleware(['cors'])->group(function () {
+    Route::name('api.')->group(function () {
         Route::middleware([SuperAdmin::class])->group(function(){
+            Route::name('bars.')->group(function () {
 
-            Route::get('bars', [BarController::class, 'list'])->name('list');
-            Route::get('bars/stats', [BarController::class, 'stats'])->name('stats');
+                Route::get('bars', [BarController::class, 'list'])->name('list');
+                Route::get('bars/stats', [BarController::class, 'stats'])->name('stats');
 
-            Route::get('bars/{slug}', [BarController::class, 'info'])->name('info');
-            Route::post('bars', [BarController::class, 'create'])->name('create');
+                Route::get('bars/{slug}', [BarController::class, 'info'])->name('info');
+                Route::post('bars', [BarController::class, 'create'])->name('create');
 
-            // Route::put('articles/{slug}', [BarController::class, 'update'])->name('update');
-            // Route::delete('articles/{slug}', [BarController::class, 'delete'])->name('delete');
-            Route::get('token', [BarController::class, 'list'])->name('list');
+
+                // Route::put('articles/{slug}', [BarController::class, 'update'])->name('update');
+                // Route::delete('articles/{slug}', [BarController::class, 'delete'])->name('delete');
+                Route::get('token', [BarController::class, 'list'])->name('list');
+            });
+            Route::get('charts', [ChartsController::class, 'getChart1Data'])->name('chart1');
+
         });
         Route::post('auth', [AuthController::class, 'auth'])->name('auth');
-    });
 
-});
+    });
+// });
