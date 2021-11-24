@@ -49,7 +49,7 @@ class BarController extends Controller
     public function stats(Request $request) {
         $bar = new Bar();
 
-        return response()->json(['message' => $bar->getOrders($request->id_bar)], 201);
+        // return response()->json(['message' => $bar->getOrders($request->id_bar)], 201);
 
 
         return response()->json(['message' => $bar->getStats($request->id_bar)], 201);

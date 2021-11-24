@@ -25,15 +25,19 @@ use App\Http\Controllers\Api\V2\AuthController;
 // });
 Route::name('api.')->group(function () {
     Route::name('bars.')->group(function () {
-        Route::get('bars', [BarController::class, 'list'])->name('list');
-        Route::get('bars/stats', [BarController::class, 'stats'])->name('stats');
+        Route::middleware([SuperAdmin::class])->group(function(){
 
-        Route::get('bars/{slug}', [BarController::class, 'info'])->name('info');
-        Route::post('bars', [BarController::class, 'create'])->name('create');
+            Route::get('bars', [BarController::class, 'list'])->name('list');
+            Route::get('bars/stats', [BarController::class, 'stats'])->name('stats');
 
-        // Route::put('articles/{slug}', [BarController::class, 'update'])->name('update');
-        // Route::delete('articles/{slug}', [BarController::class, 'delete'])->name('delete');
+            Route::get('bars/{slug}', [BarController::class, 'info'])->name('info');
+            Route::post('bars', [BarController::class, 'create'])->name('create');
+
+            // Route::put('articles/{slug}', [BarController::class, 'update'])->name('update');
+            // Route::delete('articles/{slug}', [BarController::class, 'delete'])->name('delete');
+            Route::get('token', [BarController::class, 'list'])->name('list');
+        });
         Route::post('auth', [AuthController::class, 'auth'])->name('auth');
-        Route::get('token', [BarController::class, 'list'])->name('list');
     });
+
 });
