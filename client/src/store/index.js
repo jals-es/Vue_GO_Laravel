@@ -1,10 +1,10 @@
-import {createStore} from 'vuex'
-import user from './superUser'
+import Vuex from "vuex";
 
-export default createStore({
+import { superUser } from './superUser'
 
+export default new Vuex.Store({
     modules: {
-        user
+        superUser
     }
 
 })

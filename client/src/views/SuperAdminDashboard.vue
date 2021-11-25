@@ -10,7 +10,7 @@
          alt="">
     <div class="ms-2">
       <h5 class="fs-6 mb-0">
-        <a class="text-decoration-none" href="#">Jone Doe</a>
+        <a class="text-decoration-none" href="#"> Doe</a>
       </h5>
       <p class="mt-1 mb-0">Lorem ipsum dolor sit amet consectetur.</p>
     </div>
@@ -158,7 +158,7 @@
     <div class="welcome">
       <div class="content rounded-3 p-3">
         <h1 class="fs-3">Welcome to Dashboard</h1>
-        <p class="mb-0">Hello Jone Doe, welcome to your awesome dashboard!</p>
+        <p class="mb-0">Hello {{user.name}} welcome to your awesome dashboard!</p>
       </div>
     </div>
 
@@ -320,14 +320,29 @@
 <script>
 import DashStats from "../components/SuperAdminDashStats.vue";
 import SuperAdminDashChart1 from "../components/SuperAdminChart1.vue"
+import {  computed } from "vue";
+import { useStore } from "vuex";
+
 // @ is an alias to /src
 export default {
   components: { DashStats, SuperAdminDashChart1 },
     name: 'SuperAdminDashboard',
-    props: {
-        algo: String
-    },
+    setup() {
+      // Cridem al store
+      const store = useStore();
+      
+      // Omplim el state
+      store.dispatch("superUser/getUser");
 
+      //Agafem els datos 
+      const user = computed(() => store.getters["superUser/getUser"])
+
+      // Retornem els datos
+      return {
+        user
+      }
+    }
+    
 
 }
 

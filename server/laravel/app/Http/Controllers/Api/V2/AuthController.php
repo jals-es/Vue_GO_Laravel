@@ -59,6 +59,17 @@ class AuthController extends Controller
             ], 403);
         }
     }
+    public function userData(Request $request) {
+        $decoded = JWT::decode($request->bearerToken(), new Key(env("JWT_SUPERADMIN"), 'HS256'));
+        $data = DB::table('users')
+        ->select('name','email','photo')
+        ->where('id', '=', $decoded->token_superadmin)
+        ->get();
+        return response()->json([
+            'success' => true,
+            'message' => $data,
+        ], 200);
+    }
     public function check($request)
     {
         try {

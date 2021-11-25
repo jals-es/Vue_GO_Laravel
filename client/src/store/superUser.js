@@ -1,6 +1,7 @@
-import {createStore} from 'vuex'
-
-let user = createStore({
+// import {createStore} from 'vuex'
+import laravelApiService from '../core/http/laravel.api.service'
+export const superUser = {
+        namespaced: true,
         state: {
             user: {},
             bars: [],
@@ -20,15 +21,39 @@ let user = createStore({
             },
             addOrder(state, order) {
                 state.order.push(order)
+            },
+            getUser(state, payload) {
+                console.log(payload)
+                if (payload) {
+                    state.user = payload;
+                } else {
+                    state.user = {
+                        name: "",
+                        email: "",
+                        photo: ""
+                    };
+                }
             }
         },
-        actions: {},
+        actions: {
+            getUser(store) {
+                laravelApiService.get('/api/userData')
+                .then(({ data }) => {
+                    console.log(data);
+                    store.commit("getUser", data.message[0]);
+                    // state.user=data.message[0];
+                  })
+                  .catch((error) => {
+                    console.log("ERROR: userData");
+                    console.log(error);
+                  });
+            }
+        },
         getters: {
-            getUserid: state => state.user.id,
-            getBarFromId: state => id => state.bars.find(bar => bar.id = id),
-            getOrderFromId: state => id => state.order.find(order => order.id = id),
+            getUser(state) {
+                return state.user;
+            }
+            // getBarFromId: state => id => state.bars.find(bar => bar.id = id),
+            // getOrderFromId: state => id => state.order.find(order => order.id = id),
         }
     }
-)
-
-export default user
