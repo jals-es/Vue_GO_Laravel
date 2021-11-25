@@ -3,17 +3,39 @@ package users
 import (
 	"appbar/common"
 	"errors"
+	"fmt"
 
+	"gorm.io/gorm"
+	"github.com/satori/go.uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type UserModel struct {
-	ID     uint   `gorm:"column:id;primary_key"`
+	ID     uuid.UUID `gorm:"column:id;type:uuid;primary_key;"`
 	Name   string `gorm:"column:name"`
 	Email  string `gorm:"column:email;unique_index"`
 	Photo  string `gorm:"column:photo"`
 	Passwd string `gorm:"column:passwd"`
-	Status int    `gorm:"column:status"`
+	Status string `gorm:"column:status"`
+}
+
+func (u *UserModel) BeforeCreate(tx *gorm.DB) (err error) {
+	id := uuid.NewV4()
+	fmt.Println(id)
+	fmt.Println("id")
+
+	// scope.SetColumn("ID", id)
+	u.ID = id
+	return
+}
+
+type Tabler interface {
+	TableName() string
+}
+
+// TableName overrides the table name used by User to `profiles`
+func (UserModel) TableName() string {
+	return "users"
 }
 
 func (u *UserModel) setPassword(password string) error {

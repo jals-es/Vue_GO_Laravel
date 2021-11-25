@@ -18,7 +18,7 @@ type UserResponse struct {
 	Email  string `json:"email"`
 	Photo  string `json:"photo"`
 	Passwd string `json:"passwd"`
-	Status int    `json:"status"`
+	Status string `json:"status"`
 }
 
 func (myuser *UserSerializer) Response() UserResponse {
