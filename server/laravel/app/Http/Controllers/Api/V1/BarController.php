@@ -24,27 +24,13 @@ class BarController extends Controller
      */
     public function list(Request $request)
     {
-        try {
-            if (app(AuthController::class)->check($request)) {
-                $bars = DB::table('bars')
-                ->get();
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Bar list',
-                    'data' => $bars
-                ], 200);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Forbiddenn'
-                ], 403);
-            }
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Forbidden'
-            ], 403);
-        }
+        $bar = new Bar();
+        return response()->json(['data' => $bar->listBar($request->id_bar)], 201);
+    }
+    public function count(Request $request) {
+
+        $bar = new Bar();
+        return response()->json(['data' => $bar->listBar($request->id_bar)->count()], 201);
     }
     public function stats(Request $request) {
         $bar = new Bar();
@@ -52,7 +38,7 @@ class BarController extends Controller
         // return response()->json(['message' => $bar->getOrders($request->id_bar)], 201);
 
 
-        return response()->json(['message' => $bar->getStats($request->id_bar)], 201);
+        return response()->json(['data' => $bar->getStats($request->id_bar)], 201);
 
         // return new Bar->monthlyOrders()
     }

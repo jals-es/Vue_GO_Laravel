@@ -22,6 +22,9 @@ export const superUser = {
             addOrder(state, order) {
                 state.order.push(order)
             },
+            getStats(state, payload) {
+                state.stats = payload
+            },
             getUser(state, payload) {
                 console.log(payload)
                 if (payload) {
@@ -47,12 +50,30 @@ export const superUser = {
                     console.log("ERROR: userData");
                     console.log(error);
                   });
+            },
+            getStats(store) {
+                laravelApiService.get('/api/bars/stats')
+                .then(({ data }) => {
+                    console.log(data);
+                    store.commit("getStats", data.data);
+                    // state.user=data.message[0];
+                  })
+                  .catch((error) => {
+                    console.log("ERROR: userData");
+                    console.log(error);
+                  });
             }
         },
         getters: {
             getUser(state) {
                 return state.user;
+            },
+            getStats(state) {
+                return state.stats;
             }
+
+
+
             // getBarFromId: state => id => state.bars.find(bar => bar.id = id),
             // getOrderFromId: state => id => state.order.find(order => order.id = id),
         }

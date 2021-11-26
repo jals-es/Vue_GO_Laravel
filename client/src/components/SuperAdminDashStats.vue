@@ -6,7 +6,7 @@
             <i class="uil-envelope-shield fs-2 text-center bg-primary rounded-circle"></i>
             <div class="ms-3">
               <div class="d-flex align-items-center">
-                <h3 class="mb-0">300</h3> <span class="d-block ms-2">Pedidos</span>
+                <h3 class="mb-0">{{stats.dailyOrders}}</h3> <span class="d-block ms-2">Pedidos</span>
               </div>
               <p class="fs-normal mb-0">Realizados en las ultimas 24 horas</p>
             </div>
@@ -17,7 +17,7 @@
             <i class="uil-file fs-2 text-center bg-danger rounded-circle"></i>
             <div class="ms-3">
               <div class="d-flex align-items-center">
-                <h3 class="mb-0">478</h3> <span class="d-block ms-2">Pedidos</span>
+                <h3 class="mb-0">{{stats.monthlyOrders}}</h3> <span class="d-block ms-2">Pedidos</span>
               </div>
               <p class="fs-normal mb-0">Realizados en los ultimos 30 dias</p>
             </div>
@@ -28,7 +28,7 @@
             <i class="uil-users-alt fs-2 text-center bg-success rounded-circle"></i>
             <div class="ms-3">
               <div class="d-flex align-items-center">
-                <h3 class="mb-0">104</h3> <span class="d-block ms-2">Bares</span>
+                <h3 class="mb-0">{{stats.dailyActiveBars}}</h3> <span class="d-block ms-2">Bares</span>
               </div>
               <p class="fs-normal mb-0">Han registrado un pedido hoy</p>
             </div>
@@ -38,8 +38,25 @@
     </section>        
 </template>
     <script>
+    import {  computed } from "vue";
+    import { useStore } from "vuex";
 export default {
-  name: "DashStats",
+    name: "DashStats",
+    setup() {
+      // Cridem al store
+      const store = useStore();
+      
+      // Omplim el state
+      store.dispatch("superUser/getStats");
+
+      //Agafem els datos 
+      const stats = computed(() => store.getters["superUser/getStats"])
+
+      // Retornem els datos
+      return {
+        stats
+      }
+    }
 };
 </script>
 <style scoped>
