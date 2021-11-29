@@ -7,7 +7,7 @@ import Chart from "chart.js";
 import { onMounted, computed, watch } from "vue";
 import { useStore } from "vuex";
 export default {
-  name: "SuperAdminDashChart1",
+  name: "SuperAdminDashFirstChart",
   setup() {
     // const firstChart = ref(() => store.getters["superUser/getFirstChart"])
 

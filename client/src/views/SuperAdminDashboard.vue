@@ -170,13 +170,13 @@
         <div class="col-lg-6">
           <div class="chart-container rounded-2 p-3">
             <h3 class="fs-6 mb-3">Chart title number one</h3>
-            <SuperAdminDashChart1></SuperAdminDashChart1>
+            <SuperAdminDashFirstChart></SuperAdminDashFirstChart>
           </div>
         </div>
         <div class="col-lg-6">
           <div class="chart-container rounded-2 p-3">
             <h3 class="fs-6 mb-3">Chart title number two</h3>
-            <canvas id="myChart2"></canvas>
+            <SuperAdminDashSecondChart></SuperAdminDashSecondChart>
           </div>
         </div>
       </div>
@@ -311,7 +311,6 @@
     </section>
   </div>
 </section> 
-            <SuperAdminDashChart1></SuperAdminDashChart1>
 
 </div>
 
@@ -319,13 +318,15 @@
 
 <script>
 import DashStats from "../components/SuperAdminDashStats.vue";
-import SuperAdminDashChart1 from "../components/SuperAdminChart1.vue"
+import SuperAdminDashFirstChart from "../components/SuperAdminDashFirstChart.vue"
+import SuperAdminDashSecondChart from "../components/SuperAdminDashSecondChart.vue"
+
 import {  computed } from "vue";
 import { useStore } from "vuex";
 
 // @ is an alias to /src
 export default {
-  components: { DashStats, SuperAdminDashChart1 },
+  components: { DashStats, SuperAdminDashFirstChart,SuperAdminDashSecondChart },
     name: 'SuperAdminDashboard',
     setup() {
       // Cridem al store

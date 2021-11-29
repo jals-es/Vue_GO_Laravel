@@ -26,20 +26,15 @@ export const superUser = {
                 state.stats = payload
             },
             getUser(state, payload) {
-                console.log(payload)
-                if (payload) {
-                    state.user = payload;
-                } else {
-                    state.user = {
-                        name: "",
-                        email: "",
-                        photo: ""
-                    };
-                }
+                state.user = payload
             },
             getFirstChart(state, payload) {
                 state.graph_one = payload
+            },
+            getSecondChart(state, payload) {
+                state.graph_two = payload
             }
+            
         },
         actions: {
             getUser(store) {
@@ -76,6 +71,17 @@ export const superUser = {
                     console.log("ERROR: chartsFirst");
                     console.log(error);
                   });
+            },
+            getSecondChart(store) {
+                laravelApiService.get('/api/charts/second')
+                .then(({ data }) => {
+                    console.log(data);
+                    store.commit("getSecondChart", data.data);
+                  })
+                  .catch((error) => {
+                    console.log("ERROR: chartsSecond");
+                    console.log(error);
+                  });
             }
         },
         getters: {
@@ -87,6 +93,9 @@ export const superUser = {
             },
             getFirstChart(state) {
                 return state.graph_one;
+            },
+            getSecondChart(state) {
+                return state.graph_two;
             }
 
 

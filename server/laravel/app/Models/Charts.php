@@ -26,4 +26,23 @@ class Charts extends Model
             }
             return $a;
     }
+    public function getSecondChartData() {
+
+        $data = DB::table('orders')
+                ->selectRaw('DAYNAME(date) as day, count(*) as total')
+                ->groupBy('day')
+                ->get();
+                $a = new stdClass();
+                $a->days = array();
+                $a->total = array();
+                foreach ($data as $element) {
+                    array_push($a->days,$element->day);
+                    array_push($a->total,$element->total);
+                }
+                return $a;
+
+    }
+
+    // SELECT DAYNAME(date) as day, count(*) as total FROM orders
+// GROUP BY day
 }
