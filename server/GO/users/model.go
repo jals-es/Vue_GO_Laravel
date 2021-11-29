@@ -7,12 +7,13 @@ import (
 	"gorm.io/gorm"
 	"github.com/satori/go.uuid"
 	"golang.org/x/crypto/bcrypt"
+	"github.com/drexedam/gravatar"
 )
 
 type UserModel struct {
 	ID     uuid.UUID `gorm:"column:id;type:uuid;primary_key;"`
 	Name   string `gorm:"column:name"`
-	Email  string `gorm:"column:email;unique_index"`
+	Email  string `gorm:"column:email;uniqueIndex"`
 	Photo  string `gorm:"column:photo"`
 	Passwd string `gorm:"column:passwd"`
 	Status string `gorm:"column:status"`
@@ -22,6 +23,8 @@ func (u *UserModel) BeforeCreate(tx *gorm.DB) (err error) {
 	id := uuid.NewV4()
 
 	u.ID = id
+	u.Photo = gravatar.New(u.Email).AvatarURL();
+	u.Status = "0";
 	return
 }
 

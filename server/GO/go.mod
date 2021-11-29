@@ -3,6 +3,7 @@ module appbar
 go 1.17
 
 require (
+	github.com/drexedam/gravatar v0.0.0-20210327211422-e94eea8c338e
 	github.com/gin-gonic/gin v1.7.4
 	github.com/joho/godotenv v1.4.0
 	github.com/satori/go.uuid v1.2.0
