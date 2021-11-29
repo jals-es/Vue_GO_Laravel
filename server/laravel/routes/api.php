@@ -38,7 +38,7 @@ use App\Http\Controllers\Api\V2\AuthController;
 
                 Route::get('token', [BarController::class, 'list'])->name('list');
             });
-            Route::get('charts', [ChartsController::class, 'getChart1Data'])->name('chart1');
+            Route::get('charts/first', [ChartsController::class, 'getFirstChartData'])->name('firstChart');
             Route::get('userData', [AuthController::class, 'userData'])->name('userData');
 
         });

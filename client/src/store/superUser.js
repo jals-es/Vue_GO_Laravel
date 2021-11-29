@@ -36,6 +36,9 @@ export const superUser = {
                         photo: ""
                     };
                 }
+            },
+            getFirstChart(state, payload) {
+                state.graph_one = payload
             }
         },
         actions: {
@@ -59,7 +62,18 @@ export const superUser = {
                     // state.user=data.message[0];
                   })
                   .catch((error) => {
-                    console.log("ERROR: userData");
+                    console.log("ERROR: barsStats");
+                    console.log(error);
+                  });
+            },
+            getFirstChart(store) {
+                laravelApiService.get('/api/charts/first')
+                .then(({ data }) => {
+                    console.log(data);
+                    store.commit("getFirstChart", data.data);
+                  })
+                  .catch((error) => {
+                    console.log("ERROR: chartsFirst");
                     console.log(error);
                   });
             }
@@ -70,6 +84,9 @@ export const superUser = {
             },
             getStats(state) {
                 return state.stats;
+            },
+            getFirstChart(state) {
+                return state.graph_one;
             }
 
 

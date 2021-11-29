@@ -11,7 +11,7 @@ class Charts extends Model
 {
     use HasFactory;
 
-    public function getChartData() {
+    public function getFirstChartData() {
         $data = DB::table('orders')
             ->selectRaw('bars.name, count(bars.id) AS orders')
             ->leftJoin('bars', 'bars.id', '=', 'orders.id_bar')
