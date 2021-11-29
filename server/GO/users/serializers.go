@@ -2,6 +2,7 @@ package users
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/satori/go.uuid"
 )
 
 type ProfileSerializer struct {
@@ -14,6 +15,7 @@ type UserSerializer struct {
 }
 
 type UserResponse struct {
+	ID     uuid.UUID `json:"id"`
 	Name   string `json:"name"`
 	Email  string `json:"email"`
 	Photo  string `json:"photo"`
@@ -24,6 +26,7 @@ type UserResponse struct {
 func (myuser *UserSerializer) Response() UserResponse {
 	myUserModel := myuser.c.MustGet("my_user_model").(UserModel)
 	user := UserResponse{
+		ID:     myUserModel.ID,
 		Name:   myUserModel.Name,
 		Email:  myUserModel.Email,
 		Photo:  myUserModel.Photo,

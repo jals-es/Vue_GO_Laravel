@@ -4,7 +4,6 @@ go 1.17
 
 require (
 	github.com/gin-gonic/gin v1.7.4
-	github.com/jinzhu/gorm v1.9.16
 	github.com/joho/godotenv v1.4.0
 	github.com/satori/go.uuid v1.2.0
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9

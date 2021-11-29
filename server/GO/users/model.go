@@ -3,7 +3,6 @@ package users
 import (
 	"appbar/common"
 	"errors"
-	"fmt"
 
 	"gorm.io/gorm"
 	"github.com/satori/go.uuid"
@@ -21,10 +20,7 @@ type UserModel struct {
 
 func (u *UserModel) BeforeCreate(tx *gorm.DB) (err error) {
 	id := uuid.NewV4()
-	fmt.Println(id)
-	fmt.Println("id")
 
-	// scope.SetColumn("ID", id)
 	u.ID = id
 	return
 }
