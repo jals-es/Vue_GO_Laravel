@@ -46,11 +46,11 @@ export default {
     setup() {
       // Cridem al store
       const store = useStore();
-      
+
       // Omplim el state
       store.dispatch("superUser/getStats");
 
-      //Agafem els datos 
+      //Agafem els datos
       const stats = computed(() => store.getters["superUser/getStats"])
 
       // Retornem els datos
