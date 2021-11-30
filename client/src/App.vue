@@ -1,17 +1,22 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/admin/dashboard">Admin Dash</router-link>
-  </div>
+  <Sidebar></Sidebar>
   <router-view/>
 </template>
+
+<script>
+  import Sidebar from "@/components/Sidebar";
+  export default {
+    components: {
+      Sidebar
+    }
+  }
+</script>
 
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 
