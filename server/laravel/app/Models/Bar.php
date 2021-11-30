@@ -15,7 +15,9 @@ class Bar extends Model
             $id = '%';
         }
         return DB::table('bars')
-        ->where('id', 'LIKE', $id)
+        ->selectRaw("bars.*,users.name as ownerName")
+        ->leftJoin('users', 'users.id', '=', 'bars.owner')
+        ->where('bars.id', 'LIKE', $id)
         ->get();
     }
     public function getStats($id_bar) {

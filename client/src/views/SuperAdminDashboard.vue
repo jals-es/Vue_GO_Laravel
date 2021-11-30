@@ -301,14 +301,7 @@
         </div>
       </div>
     </section>
-    <section class="charts mt-4">
-      <div class="chart-container p-3">
-        <h3 class="fs-6 mb-3">Chart title number three </h3>
-        <div style="height: 300px">
-          <canvas id="chart3" width="100%"></canvas>
-        </div>
-      </div>
-    </section>
+
   </div>
 </section> 
 

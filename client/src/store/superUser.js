@@ -33,6 +33,9 @@ export const superUser = {
             },
             getSecondChart(state, payload) {
                 state.graph_two = payload
+            },
+            getBars(state,payload) {
+                state.bars = payload
             }
             
         },
@@ -82,6 +85,17 @@ export const superUser = {
                     console.log("ERROR: chartsSecond");
                     console.log(error);
                   });
+            },
+            getBars(store) {
+                laravelApiService.get('/api/bars')
+                .then(({ data }) => {
+                    console.log(data);
+                    store.commit("getBars", data.data);
+                  })
+                  .catch((error) => {
+                    console.log("ERROR: getBars");
+                    console.log(error);
+                  });
             }
         },
         getters: {
@@ -96,6 +110,9 @@ export const superUser = {
             },
             getSecondChart(state) {
                 return state.graph_two;
+            },
+            getBars(state) {
+                return state.bars;
             }
 
 

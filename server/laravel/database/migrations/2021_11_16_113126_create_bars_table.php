@@ -22,6 +22,8 @@ class CreateBarsTable extends Migration
             $table->string('lon');
             $table->string('city');
             $table->string('address');
+            $table->integer('status');
+            $table->string('owner');
             $table->timestamps();
         });
     }

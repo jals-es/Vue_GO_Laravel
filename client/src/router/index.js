@@ -9,25 +9,12 @@ const routes = [
   {
     path: '/admin/dashboard/',
     component: () => import('@/views/SuperAdminDashboard.vue'),
-    children: [
-      // {
-      //   path: '',
-      //   redirect: '/admin/dashboard/stats'
-      // }
-      // {
-      //   path: 'stats',
-      //   component: () => import('@/components/Stats.vue')
-      // },
-      // {
-      //   path: 'charts',
-      //   component: () => import('@/components/Charts.vue')
-      // },
-      // {
-      //   path: 'orders',
-      //   component: () => import('@/components/Orders.vue')
-      // }
-    ]
+  },
+  {
+    path: '/admin/bars/',
+    component: () => import('@/views/SuperAdminBars.vue'),
   }
+
 ]
 
 const router = createRouter({

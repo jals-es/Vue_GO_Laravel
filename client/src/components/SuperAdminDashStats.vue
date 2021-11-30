@@ -42,6 +42,7 @@
     import { useStore } from "vuex";
 export default {
     name: "DashStats",
+    prop: ['bar'],
     setup() {
       // Cridem al store
       const store = useStore();
