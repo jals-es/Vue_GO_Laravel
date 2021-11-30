@@ -3,6 +3,7 @@ package users
 import (
 	"appbar/common"
 	"errors"
+	// "fmt"
 
 	"gorm.io/gorm"
 	"github.com/satori/go.uuid"
@@ -16,7 +17,7 @@ type UserModel struct {
 	Email  string `gorm:"column:email;unique"`
 	Photo  string `gorm:"column:photo"`
 	Passwd string `gorm:"column:passwd"`
-	Status string `gorm:"column:status"`
+	Status int `gorm:"column:status"`
 }
 
 func (u *UserModel) BeforeCreate(tx *gorm.DB) (err error) {
@@ -24,7 +25,7 @@ func (u *UserModel) BeforeCreate(tx *gorm.DB) (err error) {
 
 	u.ID = id
 	u.Photo = gravatar.New(u.Email).AvatarURL();
-	u.Status = "0";
+	u.Status = 0;
 	return
 }
 
@@ -49,15 +50,22 @@ func (u *UserModel) setPassword(password string) error {
 }
 
 // Database will only save the hashed string, you should check it by util function.
-// 	if err := serModel.checkPassword("password0"); err != nil { password error }
-// func (u *UserModel) checkPassword(password string) error {
-// 	bytePassword := []byte(password)
-// 	byteHashedPassword := []byte(u.Passwd)
-// 	return bcrypt.CompareHashAndPassword(byteHashedPassword, bytePassword)
-// }
+// if err := userModel.checkPassword("password0"); err != nil { password error }
+func (u *UserModel) checkPassword(password string) error {
+	bytePassword := []byte(password)
+	byteHashedPassword := []byte(u.Passwd)
+	return bcrypt.CompareHashAndPassword(byteHashedPassword, bytePassword)
+}
 
 func SaveOne(data interface{}) error {
 	db := common.GetDB()
 	err := db.Save(data).Error
 	return err
+}
+
+func FindOne(condition interface{}) (UserModel, error) {
+	db := common.GetDB()
+	var model UserModel
+	err := db.Where(condition).First(&model).Error
+	return model, err
 }

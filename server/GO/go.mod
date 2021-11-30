@@ -3,6 +3,7 @@ module appbar
 go 1.17
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/drexedam/gravatar v0.0.0-20210327211422-e94eea8c338e
 	github.com/gin-gonic/gin v1.7.4
 	github.com/joho/godotenv v1.4.0

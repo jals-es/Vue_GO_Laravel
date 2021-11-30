@@ -2,10 +2,13 @@ package common
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"gopkg.in/go-playground/validator.v8"
+	"github.com/dgrijalva/jwt-go"
+	"github.com/satori/go.uuid"
 )
 
 // Keep this two config private, it should not expose to open source
@@ -44,4 +47,16 @@ func NewError(key string, err error) CommonError {
 func Bind(c *gin.Context, obj interface{}) error {
 	b := binding.Default(c.Request.Method, c.ContentType())
 	return c.ShouldBindWith(obj, b)
+}
+
+func GenToken(id uuid.UUID) string {
+	jwt_token := jwt.New(jwt.GetSigningMethod("HS256"))
+	// Set some claims
+	jwt_token.Claims = jwt.MapClaims{
+		"id":  id,
+		"exp": time.Now().Add(time.Hour * 24).Unix(),
+	}
+	// Sign and get the complete encoded token as a string
+	token, _ := jwt_token.SignedString([]byte(NBSecretPassword))
+	return token
 }
