@@ -8,16 +8,16 @@
               <span class="h2">Bar <b>Management</b></span>
             </div>
             <div class="col-sm-5">
-                
               <div class="input-group">
                 <input
+                  id="inputSearchBar"
                   type="search"
                   class="form-control rounded"
                   placeholder="Search"
                   aria-label="Search"
                   aria-describedby="search-addon"
                 />
-                <button type="button" class="btn btn-outline-primary">
+                <button @click="search" type="button" class="btn btn-outline-primary">
                   Search
                 </button>
               </div>
@@ -37,7 +37,7 @@
             </tr>
           </thead>
           <tbody>
-            <Bar v-for="b in bars" :key="b.id" :bar="b"> </Bar>
+            <Bar v-for="b in bars" :key="b.id" :bar="b" :type="'list'"> </Bar>
           </tbody>
         </table>
       </div>
@@ -52,6 +52,9 @@ export default {
   components: { Bar },
 
   setup() {
+    const search = () => {
+      store.dispatch("superUser/getBars","%"+document.getElementById("inputSearchBar").value+"%")
+    }
     // Cridem al store
     const store = useStore();
 
@@ -62,6 +65,7 @@ export default {
     const bars = computed(() => store.getters["superUser/getBars"]);
     return {
       bars,
+      search
     };
   },
 };

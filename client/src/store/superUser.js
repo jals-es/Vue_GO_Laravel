@@ -86,8 +86,8 @@ export const superUser = {
                     console.log(error);
                   });
             },
-            getBars(store) {
-                laravelApiService.get('/api/bars')
+            getBars(store,name = "%") {
+                laravelApiService.get('/api/bars/search/'+name)
                 .then(({ data }) => {
                     console.log(data);
                     store.commit("getBars", data.data);
