@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/drexedam/gravatar v0.0.0-20210327211422-e94eea8c338e
+	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.7.4
 	github.com/joho/godotenv v1.4.0
 	github.com/satori/go.uuid v1.2.0
@@ -34,6 +35,5 @@ require (
 	github.com/pilu/fresh v0.0.0-20190826141211-0fa698148017 // indirect
 	github.com/ugorji/go/codec v1.1.7 // indirect
 	golang.org/x/sys v0.0.0-20210927094055-39ccf1dd6fa6 // indirect
-	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 )

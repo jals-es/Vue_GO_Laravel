@@ -21,9 +21,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	c.Set("my_user_model", userModelValidator.userModel)
-	serializer := UserSerializer{c}
-	c.JSON(http.StatusCreated, gin.H{"user": serializer.Response()})
+	c.JSON(http.StatusCreated, gin.H{"message": "Usuario registrado correctamente"})
 }
 
 func Login(c *gin.Context){
