@@ -9,11 +9,7 @@ import { useStore } from "vuex";
 export default {
   name: "SuperAdminDashFirstChart",
   setup() {
-    // const firstChart = ref(() => store.getters["superUser/getFirstChart"])
-
-    // Retornem els datos
     const store = useStore();
-
     // Omplim el state
     store.dispatch("superUser/getFirstChart");
 
@@ -21,8 +17,6 @@ export default {
     var interruptor = true;
     const firstChart = computed(() => store.getters["superUser/getFirstChart"]);
     onMounted(() => {
-      // Cridem al store
-
       // Wait for the proxy to retrive the store data
       watch(
         () => firstChart.value,

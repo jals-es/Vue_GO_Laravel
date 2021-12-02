@@ -34,7 +34,11 @@ class BarController extends Controller
     }
     public function stats(Request $request) {
         $bar = new Bar();
-        return response()->json(['data' => $bar->getStats($request->id_bar)], 201);
+        return response()->json(['data' => $bar->getStats($request->slug)], 201);
+    }
+    public function info(Request $request) {
+        $bar = new Bar();
+        return response()->json(['data' => $bar->getInfo($request->slug)], 201);
     }
     /**
      * Store a newly created resource in storage.
@@ -54,10 +58,7 @@ class BarController extends Controller
      * @param  \App\Models\Bar  $bar
      * @return \Illuminate\Http\Response
      */
-    public function info(Bar $bar)
-    {
-        return response()->json(['message' => 'Post create succesfully info'], 201);
-    }
+
 
     /**
      * Update the specified resource in storage.

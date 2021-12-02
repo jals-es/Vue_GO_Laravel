@@ -5,6 +5,7 @@ export const superUser = {
         state: {
             user: {},
             bars: [],
+            bar_info: {},
             orders: [],
             stats: [],
             graph_one: {},
@@ -36,7 +37,15 @@ export const superUser = {
             },
             getBars(state,payload) {
                 state.bars = payload
+            },
+            getBarInfo(state,payload) {
+                state.bar_info = payload
+            },
+            getBarStats(state,payload) {
+                state.bar_info.stats = payload
+                // console.log({...state.bar_info});
             }
+
             
         },
         actions: {
@@ -96,6 +105,26 @@ export const superUser = {
                     console.log("ERROR: getBars");
                     console.log(error);
                   });
+            },
+            getBarInfo(store,slug) {
+                laravelApiService.get('/api/bars/info/'+slug)
+                .then(({ data }) => {
+                    console.log(data.data[0]);
+                    store.commit("getBarInfo", data.data[0]);
+                  })
+                  .catch((error) => {
+                    console.log("ERROR: getBarInfo");
+                    console.log(error);
+                  });
+                laravelApiService.get('/api/bars/stats/'+slug)
+                .then(({ data }) => {
+                    console.log(data.data);
+                    store.commit("getBarStats", data.data);
+                  })
+                  .catch((error) => {
+                    console.log("ERROR: getBarStats");
+                    console.log(error);
+                  });
             }
         },
         getters: {
@@ -113,8 +142,10 @@ export const superUser = {
             },
             getBars(state) {
                 return state.bars;
+            },
+            getBarInfo(state) {
+                return state.bar_info;
             }
-
 
 
             // getBarFromId: state => id => state.bars.find(bar => bar.id = id),

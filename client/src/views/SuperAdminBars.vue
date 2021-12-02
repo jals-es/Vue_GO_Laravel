@@ -37,7 +37,7 @@
             </tr>
           </thead>
           <tbody>
-            <Bar v-for="b in bars" :key="b.id" :bar="b" :type="'list'"> </Bar>
+            <Bar v-for="b in bars" :key="b.id" :bar="b" :type="'list'"></Bar>
           </tbody>
         </table>
       </div>
