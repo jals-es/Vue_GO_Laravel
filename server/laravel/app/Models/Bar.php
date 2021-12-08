@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Stats;
+use App\Models\Orders;
+
 
 class Bar extends Model
 {
@@ -34,7 +36,7 @@ class Bar extends Model
         return ["monthlyOrders" => $stats->monthlyOrders($slug), "dailyActiveBars" => $stats->dailyActiveBars($slug), "dailyOrders" => $stats->dailyOrders($slug)];
     }
     public function getOrders($id_bar) {
-        $stats = new Stats();
-        return $stats->getOrders($id_bar);
+        $orders = new Orders();
+        return $orders->getOrders($id_bar);
     }
 }

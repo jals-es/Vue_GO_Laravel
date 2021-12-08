@@ -52,10 +52,10 @@
             <p class="m-b-sm">{{ bar.address }} , {{ bar.city }}</p>
           </div>
           <div class="col-4">
-            <p>
+            <p v-if="bar.stats">
               <span>Monthly Orders: {{ bar.stats.monthlyOrders }}</span>
             </p>
-            <p>
+            <p v-if="bar.stats">
               <span>Daily Orders: {{ bar.stats.dailyOrders }}</span>
             </p>
           </div>
@@ -76,6 +76,7 @@ export default {
   props: {
     bar: Object,
     type: String,
+    stats: Object
   },
   setup() {
     //   console.log(bar);
