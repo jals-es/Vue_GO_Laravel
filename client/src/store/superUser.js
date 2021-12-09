@@ -5,6 +5,7 @@ export const superUser = {
         state: {
             user: {},
             bars: [],
+            bar_info: {},
             orders: [],
             stats: [],
             graph_one: {},
@@ -36,7 +37,17 @@ export const superUser = {
             },
             getBars(state,payload) {
                 state.bars = payload
+            },
+            getBarInfo(state,payload) {
+                state.bar_info = payload
+            },
+            getBarStats(state,payload) {
+                state.bar_info.stats = payload
+            },
+            getOrders(state,payload) {
+                state.orders = payload
             }
+
             
         },
         actions: {
@@ -96,7 +107,38 @@ export const superUser = {
                     console.log("ERROR: getBars");
                     console.log(error);
                   });
-            }
+            },
+            getBarInfo(store,slug) {
+                laravelApiService.get('/api/bars/info/'+slug)
+                .then(({ data }) => {
+                    const first_data = data.data[0]
+                    laravelApiService.get('/api/bars/stats/'+slug)
+                    .then(({ data }) => {
+                        first_data.stats = data.data
+                        store.commit("getBarInfo", first_data);
+                      })
+                      .catch((error) => {
+                        console.log("ERROR: getBarStats");
+                        console.log(error);
+                      });
+                  })
+                  .catch((error) => {
+                    console.log("ERROR: getBarInfo");
+                    console.log(error);
+                  });
+            },
+            getOrders(store,id_bar = '"%"') {
+                console.log(id_bar.id_bar);
+                laravelApiService.get('/api/bars/orders/'+'"'+id_bar.id_bar+'"')
+                .then(({ data }) => {
+                    console.log(data);
+                    store.commit("getOrders", data.data);
+                  })
+                  .catch((error) => {
+                    console.log("ERROR: getOrders");
+                    console.log(error);
+                  });
+            },
         },
         getters: {
             getUser(state) {
@@ -113,8 +155,13 @@ export const superUser = {
             },
             getBars(state) {
                 return state.bars;
+            },
+            getBarInfo(state) {
+                return state.bar_info;
+            },
+            getOrders(state) {
+                return state.orders;
             }
-
 
 
             // getBarFromId: state => id => state.bars.find(bar => bar.id = id),

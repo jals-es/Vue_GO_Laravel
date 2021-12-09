@@ -13,6 +13,11 @@ const routes = [
   {
     path: '/admin/bars/',
     component: () => import('@/views/SuperAdminBars.vue'),
+  },
+  {
+    path: '/admin/bars/:id',
+    component: () => import('@/views/SuperAdminBarManagement.vue'),
+
   }
 
 ]

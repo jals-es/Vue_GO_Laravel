@@ -19,12 +19,6 @@ use App\Http\Controllers\Api\V2\AuthController;
 |
 */
 
-// Route::apiResource('v1/bars', App\Http\Controllers\Api\V1\BarController::class)->middleware('api');
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-// Route::middleware(['cors'])->group(function () {
     Route::name('api.')->group(function () {
         Route::middleware([SuperAdmin::class])->group(function(){
             Route::name('bars.')->group(function () {
@@ -32,13 +26,17 @@ use App\Http\Controllers\Api\V2\AuthController;
                 Route::get('bars', [BarController::class, 'list'])->name('list');
                 Route::get('bars/count', [BarController::class, 'count'])->name('count');
                 Route::get('bars/stats', [BarController::class, 'stats'])->name('stats');
+                Route::get('bars/stats/{slug}', [BarController::class, 'stats'])->name('stats');
                 Route::get('bars/search/{slug}', [BarController::class, 'list'])->name('search');
 
-                Route::get('bars/{slug}', [BarController::class, 'info'])->name('info');
+                Route::get('bars/info/{slug}', [BarController::class, 'info'])->name('info');
 
                 Route::post('bars', [BarController::class, 'create'])->name('create');
 
                 Route::get('token', [BarController::class, 'list'])->name('list');
+
+                Route::get('bars/orders/{id_bar}', [BarController::class, 'orders'])->name('orders');
+
             });
 
             Route::get('charts/first', [ChartsController::class, 'getFirstChartData'])->name('firstChart');
