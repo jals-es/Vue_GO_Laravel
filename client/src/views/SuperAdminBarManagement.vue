@@ -3,7 +3,7 @@
     <Bar :type="'header'" :bar="bar"></Bar>
     <div class="row" style="margin: 0 auto; width: 95%">
       <div class="col">
-        <SuperAdminListOrders :bar="bar" class="col"></SuperAdminListOrders>
+        <SuperAdminListOrders v-if="bar.id" :id_bar="bar.id" class="col"></SuperAdminListOrders>
       </div>
       <div class="col bg-danger"></div>
     </div>
@@ -16,7 +16,6 @@ import { useStore } from "vuex";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 export default {
-  // name: SuperAdminBarManagement,
   components: { Bar, SuperAdminListOrders },
   setup() {
     const route = useRoute();

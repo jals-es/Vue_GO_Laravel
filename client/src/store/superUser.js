@@ -128,7 +128,8 @@ export const superUser = {
                   });
             },
             getOrders(store,id_bar = '"%"') {
-                laravelApiService.get('/api/bars/orders/'+id_bar)
+                console.log(id_bar.id_bar);
+                laravelApiService.get('/api/bars/orders/'+'"'+id_bar.id_bar+'"')
                 .then(({ data }) => {
                     console.log(data);
                     store.commit("getOrders", data.data);
