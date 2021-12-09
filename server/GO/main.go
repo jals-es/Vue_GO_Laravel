@@ -1,17 +1,22 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"appbar/router"
+	"github.com/gin-contrib/cors"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	var r = gin.Default()
+	r := gin.Default()
+
+	r.Use(cors.Default())
 
 	//Los nombres de las funciones en mayuscula, PERFAVOR
 	router.GeneralRouter(r.Group("/api"))
 
 	home := r.Group("/")
+	
 
 	home.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
