@@ -12,6 +12,7 @@ use Mockery\Undefined;
 
 class AuthController extends Controller
 {
+
     public function auth(Request $request)
     {
         //Get the info
@@ -22,6 +23,7 @@ class AuthController extends Controller
             ->get();
         if (!$isSuperAdmin->isEmpty()) {
             //User exists
+
             if ($request->ip() == env("ALLOWED_SERVER")) {
                 //Its from a safe server
                 //Get the key
@@ -44,7 +46,9 @@ class AuthController extends Controller
                 //User can login but not from a safe server
                 return response()->json([
                     'success' => false,
-                    'message' => 'Forbidden'
+                    'message' => 'Forbidden',
+                    'ip' => $request->ip(),
+                    'acceped' => env("ALLOWED_SERVER")
                 ], 403);
             }
         } else {
@@ -54,6 +58,17 @@ class AuthController extends Controller
                 'message' => 'Invalid Credentials',
             ], 403);
         }
+    }
+    public function userData(Request $request) {
+        $decoded = JWT::decode($request->bearerToken(), new Key(env("JWT_SUPERADMIN"), 'HS256'));
+        $data = DB::table('users')
+        ->select('name','email','photo')
+        ->where('id', '=', $decoded->token_superadmin)
+        ->get();
+        return response()->json([
+            'success' => true,
+            'message' => $data,
+        ], 200);
     }
     public function check($request)
     {
