@@ -4,6 +4,11 @@ import (
 	"net/http"
 	"appbar/common"
 	"errors"
+	"fmt"
+	"bytes"
+	"encoding/json"
+	"log"
+	"io/ioutil"
 
 	"github.com/gin-gonic/gin"
 )
@@ -43,6 +48,39 @@ func Login(c *gin.Context){
 		c.JSON(http.StatusForbidden, common.NewError("login", errors.New("Not Registered email or invalid password")))
 		return
 	}
+
+	// fmt.Println(userModel.ID)
+	// fmt.Println(userModel.Email)
+	// fmt.Println(userModel.Passwd)
+
+	erro := CheckSuperAdmin(userModel.ID)
+
+	if erro == nil {
+		fmt.Println("is superadmin")
+
+		postBody, _ := json.Marshal(map[string]string{
+			"user":  userModel.Email,
+			"passwd": userModel.Passwd,
+		 })
+		 responseBody := bytes.NewBuffer(postBody)
+	  //Leverage Go's HTTP Post function to make request
+		 resp, err := http.Post("http://127.0.0.1:8000/api/auth", "application/json", responseBody)
+	  //Handle Error
+		 if err != nil {
+			log.Fatalf("An Error Occured %v", err)
+		 }
+		 defer resp.Body.Close()
+
+		 body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		sb := string(body)
+		log.Printf(sb)
+	}
+
+	// fmt.Println(uuid.UUID)
+
 
 	// c.Set("my_user_model", userModel)
 	UpdateContextUserModel(c, userModel.ID)

@@ -69,3 +69,10 @@ func FindOne(condition interface{}) (UserModel, error) {
 	err := db.Where(condition).First(&model).Error
 	return model, err
 }
+
+func CheckSuperAdmin(id_user uuid.UUID) (error) {
+	db := common.GetDB()
+	var model UserModel
+	err := db.Where("id_user = ?", id_user).Table("superadmins").Take(&model).Error
+	return err
+}
