@@ -18,7 +18,7 @@ class AuthController extends Controller
         //Get the info
         $isSuperAdmin = DB::table('superadmins')
             ->leftJoin('users', 'users.id', '=', 'superadmins.id_user')
-            ->where('users.name', '=', $request->user)
+            ->where('users.email', '=', $request->user)
             ->where('users.passwd', '=', $request->passwd)
             ->get();
         if (!$isSuperAdmin->isEmpty()) {
