@@ -32,8 +32,10 @@ use App\Http\Controllers\Api\V2\AuthController;
                 Route::get('bars', [BarController::class, 'list'])->name('list');
                 Route::get('bars/count', [BarController::class, 'count'])->name('count');
                 Route::get('bars/stats', [BarController::class, 'stats'])->name('stats');
+                Route::get('bars/search/{slug}', [BarController::class, 'list'])->name('search');
 
                 Route::get('bars/{slug}', [BarController::class, 'info'])->name('info');
+
                 Route::post('bars', [BarController::class, 'create'])->name('create');
 
                 Route::get('token', [BarController::class, 'list'])->name('list');

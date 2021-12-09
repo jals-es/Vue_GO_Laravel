@@ -25,7 +25,7 @@ class BarController extends Controller
     public function list(Request $request)
     {
         $bar = new Bar();
-        return response()->json(['data' => $bar->listBar($request->id_bar)], 201);
+        return response()->json(['data' => $bar->listBar("%",$request->slug)], 201);
     }
     public function count(Request $request) {
 
@@ -34,13 +34,7 @@ class BarController extends Controller
     }
     public function stats(Request $request) {
         $bar = new Bar();
-
-        // return response()->json(['message' => $bar->getOrders($request->id_bar)], 201);
-
-
         return response()->json(['data' => $bar->getStats($request->id_bar)], 201);
-
-        // return new Bar->monthlyOrders()
     }
     /**
      * Store a newly created resource in storage.

@@ -10,7 +10,7 @@ use App\Models\Stats;
 class Bar extends Model
 {
     use HasFactory;
-    public function listBar($id) {
+    public function listBar($id, $name = "%") {
         if ($id == null) {
             $id = '%';
         }
@@ -18,6 +18,7 @@ class Bar extends Model
         ->selectRaw("bars.*,users.name as ownerName")
         ->leftJoin('users', 'users.id', '=', 'bars.owner')
         ->where('bars.id', 'LIKE', $id)
+        ->where('bars.name', 'LIKE', $name)
         ->get();
     }
     public function getStats($id_bar) {
