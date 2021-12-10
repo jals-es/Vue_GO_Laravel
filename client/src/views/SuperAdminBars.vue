@@ -1,5 +1,5 @@
 <template>
-  <div class="container-xl">
+  <div class="container barManagement">
     <div class="table-responsive">
       <div class="table-wrapper">
         <div class="table-title">
@@ -70,3 +70,10 @@ export default {
   },
 };
 </script>
+<style scoped>
+.barManagement {
+  padding-top: 25px;
+  margin-left: 260px;
+  max-width: 85%;
+}
+</style>

@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="barManagement" >
     <Bar :type="'header'" :bar="bar"></Bar>
     <div class="row" style="margin: 0 auto; width: 95%">
       <div class="col">
-        <SuperAdminListOrders v-if="bar.id" :id_bar="bar.id" class="col"></SuperAdminListOrders>
+        <SuperAdminListOrders :key="bar.id" :id_bar="bar.id"></SuperAdminListOrders>
       </div>
       <div class="col bg-danger"></div>
     </div>
@@ -25,9 +25,7 @@ export default {
     const store = useStore();
 
     // Omplim el state
-    // onMounted(() => {
     store.dispatch("superUser/getBarInfo", route.params.id);
-    // })
     //Agafem els datos
     const bar = computed(() => store.getters["superUser/getBarInfo"]);
     return {
@@ -37,3 +35,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+.barManagement {
+  padding-top: 25px;
+  margin-left: 240px;
+}
+</style>

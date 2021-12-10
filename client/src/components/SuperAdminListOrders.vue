@@ -1,6 +1,6 @@
 <template>
   <div class="orderList">
-    <h3>Order List {{slug}}</h3>
+    <h3 class="orderListh3">Order List {{slug}}</h3>
     <table class="table table-dark">
       <thead>
         <!-- <th>Order ID</th> -->
@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <SuperAdminOrders
+        <SuperAdminOrders 
           v-for="o in orders"
           :order="o"
           :key="o.id"
@@ -27,7 +27,7 @@ import { useStore } from "vuex";
 import { computed } from "vue";
 import SuperAdminOrders from "./SuperAdminOrders.vue";
 export default {
-  name: "SuperAdminListBars",
+  name: "SuperAdminListOrders",
   components: { SuperAdminOrders },
   props: {
     id_bar: String,
@@ -35,11 +35,11 @@ export default {
     // stats: Object,
   },
   setup(id_bar) {
+
     const store = useStore();
 
     store.dispatch("superUser/getOrders", id_bar);
     const orders = computed(() => store.getters["superUser/getOrders"]);
-
     return {
       orders,
     };
@@ -54,5 +54,8 @@ export default {
     background-color: #313348;
     font-weight: bold;
     border-radius: 5px;
+  }
+  .orderListh3 {
+    margin-left: 2%;
   }
 </style>

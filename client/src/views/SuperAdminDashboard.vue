@@ -7,12 +7,13 @@
         <div class="welcome">
           <div class="content rounded-3 p-3">
             <h1 class="fs-3">Welcome to Dashboard</h1>
-            <p class="mb-0">Hello Jone Doe, welcome to your awesome dashboard!</p>
+            <p class="mb-0">
+              Hello Jone Doe, welcome to your awesome dashboard!
+            </p>
           </div>
         </div>
 
         <DashStats></DashStats>
-
 
         <section class="charts mt-4">
           <div class="row">
@@ -30,7 +31,14 @@
             </div>
           </div>
         </section>
-
+        <section class="misc">
+          <div class="row">
+            <div class="col">
+              <SuperAdminListOrders v-bind:id_bar="'%'"></SuperAdminListOrders>
+            </div>
+            <div class="col"></div>
+          </div>
+        </section>
       </div>
     </section>
   </div>
@@ -38,17 +46,25 @@
 
 <script>
 import DashStats from "../components/SuperAdminDashStats.vue";
-import SuperAdminDashFirstChart from "../components/SuperAdminDashFirstChart.vue"
-import SuperAdminDashSecondChart from "../components/SuperAdminDashSecondChart.vue"
-import Sidebar from "../components/Sidebar"
+import SuperAdminDashFirstChart from "../components/SuperAdminDashFirstChart.vue";
+import SuperAdminDashSecondChart from "../components/SuperAdminDashSecondChart.vue";
+import Sidebar from "../components/Sidebar";
+import SuperAdminListOrders from "../components/SuperAdminListOrders.vue";
 
-import {computed} from "vue";
-import {useStore} from "vuex";
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 // @ is an alias to /src
 export default {
-  components: {DashStats, SuperAdminDashFirstChart, SuperAdminDashSecondChart, Sidebar},
-  name: 'SuperAdminDashboard',
+  components: {
+    DashStats,
+    SuperAdminListOrders,
+    SuperAdminDashFirstChart,
+    SuperAdminDashSecondChart,
+    Sidebar,
+  },
+  name: "SuperAdminDashboard",
+
   setup() {
     // Cridem al store
     const store = useStore();
@@ -57,30 +73,27 @@ export default {
     store.dispatch("superUser/getUser");
 
     //Agafem els datos
-    const user = computed(() => store.getters["superUser/getUser"])
+    const user = computed(() => store.getters["superUser/getUser"]);
 
     // Retornem els datos
     return {
-      user
-    }
-  }
-
-
-}
-
+      user,
+    };
+  },
+};
 </script>
 <style scoped>
 @import 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet';
 
 :root {
-  --dk-gray-100: #F3F4F6;
-  --dk-gray-200: #E5E7EB;
-  --dk-gray-300: #D1D5DB;
-  --dk-gray-400: #9CA3AF;
-  --dk-gray-500: #6B7280;
-  --dk-gray-600: #4B5563;
+  --dk-gray-100: #f3f4f6;
+  --dk-gray-200: #e5e7eb;
+  --dk-gray-300: #d1d5db;
+  --dk-gray-400: #9ca3af;
+  --dk-gray-500: #6b7280;
+  --dk-gray-600: #4b5563;
   --dk-gray-700: #374151;
-  --dk-gray-800: #1F2937;
+  --dk-gray-800: #1f2937;
   --dk-gray-900: #111827;
   --dk-dark-bg: #313348;
   --dk-darker-bg: #2a2b3d;
@@ -96,9 +109,9 @@ export default {
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   background-color: #2a2b3d;
-  font-size: .925rem;
+  font-size: 0.925rem;
 }
 
 .col-lg-4 {
@@ -106,18 +119,17 @@ body {
 }
 
 .statistics .row {
-  justify-content: space-between
+  justify-content: space-between;
 }
 
 #wrapper {
   margin-left: 250px;
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 #wrapper.fullwidth {
   margin-left: 0;
 }
-
 
 /** --------------------------------
  -- Sidebar
@@ -125,9 +137,9 @@ body {
 .sidebar {
   background-color: #252636;
   width: 250px;
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   transform: translateX(0);
-  z-index: 9999999
+  z-index: 9999999;
 }
 
 .sidebar .close-aside {
@@ -135,20 +147,20 @@ body {
   top: 7px;
   right: 7px;
   cursor: pointer;
-  color: #EEE;
+  color: #eee;
 }
 
 .sidebar .sidebar-header {
-  border-bottom: 1px solid #2a2b3c
+  border-bottom: 1px solid #2a2b3c;
 }
 
 .sidebar .sidebar-header h5 a {
-  color: #D1D5DB
+  color: #d1d5db;
 }
 
 .sidebar .sidebar-header p {
-  color: #9CA3AF;
-  font-size: .825rem;
+  color: #9ca3af;
+  font-size: 0.825rem;
 }
 
 .sidebar .search .form-control ~ i {
@@ -158,11 +170,11 @@ body {
 }
 
 .sidebar > ul > li {
-  padding: .7rem 1.75rem;
+  padding: 0.7rem 1.75rem;
 }
 
 .sidebar ul > li > a {
-  color: #9CA3AF;
+  color: #9ca3af;
   text-decoration: none;
 }
 
@@ -171,23 +183,23 @@ body {
   line-height: 0;
   border-radius: 3px;
   font-size: 14px;
-  padding: 0px 5px
+  padding: 0px 5px;
 }
 
 .sidebar ul > li > i {
   font-size: 18px;
-  margin-right: .7rem;
-  color: #6B7280;
+  margin-right: 0.7rem;
+  color: #6b7280;
 }
 
 .sidebar ul > li.has-dropdown > a:after {
-  content: '\eb3a';
+  content: "\eb3a";
   font-family: unicons-line;
   font-size: 1rem;
   line-height: 1.8;
   float: right;
-  color: #6B7280;
-  transition: all .3s ease-in-out;
+  color: #6b7280;
+  transition: all 0.3s ease-in-out;
 }
 
 .sidebar ul .opened > a:after {
@@ -206,8 +218,8 @@ body {
 }
 
 .sidebar ul .sidebar-dropdown > li > a {
-  font-size: .85rem;
-  padding: .5rem 0;
+  font-size: 0.85rem;
+  padding: 0.5rem 0;
   display: block;
 }
 
@@ -224,16 +236,15 @@ body {
   }
 
   .sidebar .search {
-    padding: 10px 0 10px 30px
+    padding: 10px 0 10px 30px;
   }
 }
-
 
 /** --------------------------------
  -- welcome
 -------------------------------- */
 .welcome {
-  color: #D1D5DB;
+  color: #d1d5db;
 }
 
 .welcome .content {
@@ -241,14 +252,12 @@ body {
 }
 
 .welcome p {
-  color: #9CA3AF;
+  color: #9ca3af;
 }
-
 
 /** --------------------------------
  -- Statistics
 -------------------------------- */
-
 
 /** --------------------------------
  -- Charts
@@ -258,9 +267,8 @@ body {
 }
 
 .charts .chart-container h3 {
-  color: #9CA3AF
+  color: #9ca3af;
 }
-
 
 /** --------------------------------
  -- users
@@ -270,19 +278,18 @@ body {
 }
 
 .admins .box h3 {
-  color: #D1D5DB;
+  color: #d1d5db;
 }
 
 .admins .box p {
-  color: #9CA3AF
+  color: #9ca3af;
 }
-
 
 /** --------------------------------
  -- statis
 -------------------------------- */
 .statis {
-  color: #F3F4F6;
+  color: #f3f4f6;
 }
 
 .statis .box {
@@ -315,9 +322,8 @@ body {
   border-radius: 50%;
 }
 
-
 .main-color {
-  color: #ffc107
+  color: #ffc107;
 }
 
 /** --------------------------------
@@ -336,39 +342,40 @@ body {
 }
 
 .navbar .navbar-nav > li > a {
-  color: #EEE !important;
+  color: #eee !important;
   line-height: 55px !important;
   padding: 0 10px !important;
 }
 
 .navbar .navbar-brand {
-  color: #FFF !important
+  color: #fff !important;
 }
 
 .navbar .navbar-nav > li > a:focus,
 .navbar .navbar-nav > li > a:hover {
-  color: #EEE !important
+  color: #eee !important;
 }
 
 .navbar .navbar-nav > .open > a,
 .navbar .navbar-nav > .open > a:focus,
 .navbar .navbar-nav > .open > a:hover {
   background-color: transparent !important;
-  color: #FFF !important
+  color: #fff !important;
 }
 
 .navbar .navbar-brand {
   line-height: 55px !important;
-  padding: 0 !important
+  padding: 0 !important;
 }
 
 .navbar .navbar-brand:focus,
 .navbar .navbar-brand:hover {
-  color: #FFF !important
+  color: #fff !important;
 }
 
-.navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
-  margin: 0 !important
+.navbar > .container .navbar-brand,
+.navbar > .container-fluid .navbar-brand {
+  margin: 0 !important;
 }
 
 @media (max-width: 767px) {
@@ -403,7 +410,7 @@ body {
   font-size: 11px !important;
   position: relative !important;
   top: -10px !important;
-  right: 5px !important
+  right: 5px !important;
 }
 
 .dropdown-menu > li > a {
@@ -415,12 +422,11 @@ body {
   font-size: 18px !important;
 }
 
-
 /* Start media query */
 
 @media (max-width: 767px) {
   #wrapper {
-    margin: 0 !important
+    margin: 0 !important;
   }
 
   .statistics .box {
@@ -428,24 +434,24 @@ body {
   }
 
   .navbar .navbar-nav .open .dropdown-menu > li > a {
-    color: #CCC !important
+    color: #ccc !important;
   }
 
   .navbar .navbar-nav .open .dropdown-menu > li > a:hover {
-    color: #FFF !important
+    color: #fff !important;
   }
 
   .navbar .navbar-toggle {
     border: none !important;
-    color: #EEE !important;
+    color: #eee !important;
     font-size: 18px !important;
   }
 
-  .navbar .navbar-toggle:focus, .navbar .navbar-toggle:hover {
-    background-color: transparent !important
+  .navbar .navbar-toggle:focus,
+  .navbar .navbar-toggle:hover {
+    background-color: transparent !important;
   }
 }
-
 
 ::-webkit-scrollbar {
   background: transparent;
@@ -460,5 +466,4 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background-color: rgba(0, 0, 0, 0.3);
 }
-
 </style>

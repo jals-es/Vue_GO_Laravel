@@ -3,8 +3,8 @@
     <td>
       <b>{{ bar.name }}</b>
     </td>
-    <td>
-      <a href="">{{ bar.slug }}</a>
+    <td v-if="bar">
+      <router-link :to="'/admin/bars/' + bar.slug">{{ bar.slug }}</router-link>
     </td>
     <td>{{ bar.city }} {{ bar.address }}</td>
     <td>{{ bar.created_at }}</td>
