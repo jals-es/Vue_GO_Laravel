@@ -8,23 +8,28 @@ export const httpClient = axios.create({
 const golangApiService = {
     get(path) {
         return httpClient.get(path)
-            .catch((error) => throw new Error(error))
+            .catch((error) =>
+                throw new Error(error))
     },
-    post(path, body){
+    post(path, body) {
         return httpClient.post(path, body)
-            .catch((error) => throw new Error(error))
+            .catch((error) =>
+                throw new Error(error))
     },
-    put(path, body){
+    put(path, body) {
         return httpClient.put(path, body)
-            .catch((error) => throw new Error(error))
+            .catch((error) =>
+                throw new Error(error))
     },
-    patch(path, body){
+    patch(path, body) {
         return httpClient.patch(path, body)
-            .catch((error) => throw new Error(error))
+            .catch((error) =>
+                throw new Error(error))
     },
-    delete(path){
+    delete(path) {
         return httpClient.delete(path)
-            .catch((error) => throw new Error(error))
+            .catch((error) =>
+                throw new Error(error))
     }
 }
 

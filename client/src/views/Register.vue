@@ -52,7 +52,15 @@ export default {
           passwd: this.password
         }
       }
-      golangApiService.post('/api/user', user)
+
+      golangApiService.post('/api/user/', user)
+      .then(({ data }) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log("ERROR: userData");
+        console.log(error);
+      });
     }
   }
 }
