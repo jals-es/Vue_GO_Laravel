@@ -7,6 +7,7 @@ export const superUser = {
             bars: [],
             bar_info: {},
             orders: [],
+            products: [],
             stats: [],
             graph_one: {},
             graph_two: {},
@@ -46,6 +47,9 @@ export const superUser = {
             },
             getOrders(state,payload) {
                 state.orders = payload
+            },
+            getProducts(state,payload) {
+                state.products = payload
             }
 
             
@@ -68,7 +72,6 @@ export const superUser = {
                 .then(({ data }) => {
                     console.log(data);
                     store.commit("getStats", data.data);
-                    // state.user=data.message[0];
                   })
                   .catch((error) => {
                     console.log("ERROR: barsStats");
@@ -128,14 +131,24 @@ export const superUser = {
                   });
             },
             getOrders(store,id_bar = '"%"') {
-                console.log(id_bar.id_bar);
                 laravelApiService.get('/api/bars/orders/'+'"'+id_bar.id_bar+'"')
                 .then(({ data }) => {
-                    console.log(data);
                     store.commit("getOrders", data.data);
                   })
                   .catch((error) => {
                     console.log("ERROR: getOrders");
+                    console.log(error);
+                  });
+            },
+            getProducts(store, id_bar = '%') {
+                console.log('/api/bars/products/'+id_bar.idBar);
+                laravelApiService.get('/api/bars/products/'+id_bar.idBar)
+                .then(({ data }) => {
+                    console.log(data);
+                    store.commit("getProducts", data.data);
+                  })
+                  .catch((error) => {
+                    console.log("ERROR: getProducts");
                     console.log(error);
                   });
             },
@@ -161,6 +174,9 @@ export const superUser = {
             },
             getOrders(state) {
                 return state.orders;
+            },
+            getProducts(state) {
+                return state.products;
             }
 
 

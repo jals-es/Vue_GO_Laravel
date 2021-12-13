@@ -17,8 +17,7 @@ export default {
     // stats: Object,
   },
 
-  setup(order) {
-    console.log(order);
+  setup() {
   },
 };
 </script>

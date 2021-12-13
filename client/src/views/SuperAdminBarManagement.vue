@@ -5,18 +5,21 @@
       <div class="col">
         <SuperAdminListOrders :key="bar.id" :id_bar="bar.id"></SuperAdminListOrders>
       </div>
-      <div class="col bg-danger"></div>
+      <div class="col">
+        <SuperAdminListProducts :key="bar.id" :idBar="bar.id"></SuperAdminListProducts>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import Bar from "../components/bars/Bar.vue";
 import SuperAdminListOrders from "../components/SuperAdminListOrders.vue";
+import SuperAdminListProducts from "../components/SuperAdminListProducts.vue"
 import { useStore } from "vuex";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 export default {
-  components: { Bar, SuperAdminListOrders },
+  components: { Bar, SuperAdminListOrders, SuperAdminListProducts },
   setup() {
     const route = useRoute();
     const ruta = route.params.id;
