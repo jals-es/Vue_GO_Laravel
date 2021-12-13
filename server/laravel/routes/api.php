@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\BarController;
 use App\Http\Controllers\Api\V1\ChartsController;
+use App\Http\Controllers\Api\V1\ProductsController;
 use App\Http\Controllers\Api\V2\AuthController;
 
 
@@ -36,6 +37,8 @@ use App\Http\Controllers\Api\V2\AuthController;
                 Route::get('token', [BarController::class, 'list'])->name('list');
 
                 Route::get('bars/orders/{id_bar}', [BarController::class, 'orders'])->name('orders');
+
+                Route::get('bars/products/{id_bar}', [ProductsController::class, 'getProducts'])->name('getProducts');
 
             });
 
