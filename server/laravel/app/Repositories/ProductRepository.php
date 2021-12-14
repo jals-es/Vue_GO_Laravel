@@ -20,8 +20,6 @@ class ProductRepository implements ProductRepositoryInterface
             return $products;
         } catch (\Exception $e) {
             return self::throwError($e->getMessage());
-            return self::throwError("baboei");
-
         }
     }
 }

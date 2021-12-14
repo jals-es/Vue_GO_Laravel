@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Support\Facades\DB;
-use Mockery\Undefined;
+use App\Http\Requests\IncidenceRequest;
 
 class AuthController extends Controller
 {
@@ -69,6 +69,14 @@ class AuthController extends Controller
             'success' => true,
             'message' => $data,
         ], 200);
+    }
+    public function userId($jwt) {
+        $decoded = JWT::decode($jwt, new Key(env("JWT_SUPERADMIN"), 'HS256'));
+        $data = DB::table('users')
+        ->select('id')
+        ->where('id', '=', $decoded->token_superadmin)
+        ->get();
+        return $data;
     }
     public function check($request)
     {

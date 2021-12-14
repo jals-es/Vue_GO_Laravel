@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\BarController;
+use App\Http\Controllers\Api\V1\IncidenceController;
 use App\Http\Controllers\Api\V1\ChartsController;
 use App\Http\Controllers\Api\V1\ProductsController;
 use App\Http\Controllers\Api\V2\AuthController;
@@ -22,6 +23,9 @@ use App\Http\Controllers\Api\V2\AuthController;
 
     Route::name('api.')->group(function () {
         Route::middleware([SuperAdmin::class])->group(function(){
+            Route::name('incidence.')->group(function () {
+                Route::post('incidence', [IncidenceController::class, 'store'])->name('store');
+            });
             Route::name('bars.')->group(function () {
 
                 Route::get('bars', [BarController::class, 'list'])->name('list');

@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class IncidencePhoto extends Model
 {
     use HasFactory;
+    protected $table = 'incidence_photos';
+
+    public function incidence() {
+        return $this->belongsTo(Incidence::class);
+    }
 }
