@@ -14,9 +14,9 @@ class CreateBarsTable extends Migration
     public function up()
     {
         Schema::create('bars', function (Blueprint $table) {
-            $table->string('id')->primary();;
+            $table->string('id')->primary();
             $table->string('name');
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->string('descr');
             $table->string('lat');
             $table->string('lon');
