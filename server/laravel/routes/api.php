@@ -25,6 +25,8 @@ use App\Http\Controllers\Api\V2\AuthController;
         Route::middleware([SuperAdmin::class])->group(function(){
             Route::name('incidence.')->group(function () {
                 Route::post('incidence', [IncidenceController::class, 'store'])->name('store');
+                Route::get('incidence', [IncidenceController::class, 'list'])->name('list');
+
             });
             Route::name('bars.')->group(function () {
 

@@ -23,7 +23,7 @@ class IncidenceService
                     'id' => Str::uuid(),
                     'name' => $fileName,
                     'id_incidence' => $incidence,
-                    'path' => public_path().'/uploads/'.$fileName,
+                    'path' => 'http://127.0.0.1:8000/uploads/'.$fileName,
                 ]);
         }
     }

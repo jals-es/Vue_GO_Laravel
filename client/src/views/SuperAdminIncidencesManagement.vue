@@ -1,12 +1,14 @@
 <template>
 <div class="incidencesManagement">
     <SuperAdminCreateIncidence></SuperAdminCreateIncidence>
+    <SuperAdminListIncidences></SuperAdminListIncidences>
 </div>
 </template>
 <script>
 import SuperAdminCreateIncidence from '../components/SuperAdminCreateIncidence.vue'
+import SuperAdminListIncidences from '../components/SuperAdminListIncidences.vue'
 export default {
-    components: {SuperAdminCreateIncidence},
+    components: {SuperAdminCreateIncidence,SuperAdminListIncidences},
     setup() {
         
     },
@@ -15,6 +17,6 @@ export default {
 <style scoped>
 .incidencesManagement {
   padding-top: 25px;
-  margin-left: 260px;
+  margin-left: 280px;
 }
 </style>

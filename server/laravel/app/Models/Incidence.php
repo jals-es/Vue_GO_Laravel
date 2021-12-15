@@ -14,7 +14,7 @@ class Incidence extends Model
 
     public function photos()
     {
-        return $this->hasMany(IncidencePhoto::class, 'id_incidence	' , 'id');
+        return $this->hasMany(IncidencePhoto::class, 'id_incidence' , 'id');
     }
 
 }

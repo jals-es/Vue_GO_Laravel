@@ -10,22 +10,32 @@ use Illuminate\Support\Str;
 class IncidenceRepository
 {
     use ErrorTrait;
+    public function list()
+    {
+        // $own = Incidence::where('owner', '=', app('App\Http\Controllers\Api\V2\AuthController')->userId(Str::substr(request()->header('Authorization', ''), 7))[0]->id)->get();
+        // foreach ($own as $key => $inc) {
+        //     $own[$key]->photos = $inc->photos;
+        // }
+        // $rest = Incidence::where('owner', '!=', app('App\Http\Controllers\Api\V2\AuthController')->userId(Str::substr(request()->header('Authorization', ''), 7))[0]->id)->get();
+        // foreach ($rest as $key => $inc) {
+        //     $rest[$key]->photos = $inc->photos;
+        // }
+        $data = Incidence::all();
+        foreach ($data as $key => $ind) {
+            $data[$key]->own = $data[$key]->owner == app('App\Http\Controllers\Api\V2\AuthController')->userId(Str::substr(request()->header('Authorization', ''), 7))[0]->id ? true : false;
+            $data[$key]->photos = $ind->photos;
+        }
+        return $data;
+    }
     public function createIncidence()
     {
-        $header = request()->header('Authorization', '');
-
-        if (Str::startsWith($header, 'Bearer ')) {
-            $jwt = Str::substr($header, 7);
-        }
-
-
         try {
             $uuid = Str::uuid();
             $newIncidence = Incidence::create([
                 'id' => $uuid,
                 'name' => request()->name,
                 'status' => 1,
-                'owner' => app('App\Http\Controllers\Api\V2\AuthController')->userId($jwt)[0]->id,
+                'owner' => app('App\Http\Controllers\Api\V2\AuthController')->userId(Str::substr(request()->header('Authorization', ''), 7))[0]->id,
                 'closer' => null,
                 'descr' => request()->descr,
                 'fix' => null,
@@ -34,7 +44,7 @@ class IncidenceRepository
                 return $uuid;
             }
         } catch (\Exception $e) {
-            return self::throwError();
+            return self::throwError($e);
         }
     }
 }

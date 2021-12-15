@@ -13,7 +13,6 @@ class IncidenceRequest extends Request
 
     public function rules()
     {
-
         $rules = [
             'file' => 'required',
             'name' => 'required|max:120',

@@ -11,10 +11,7 @@ export const superUser = {
             stats: [],
             graph_one: {},
             graph_two: {},
-            graph_three: {},
-            graph_four: {},
-            graph_five: {},
-            graph_six: {}
+            incidences: [],
 
         },
         mutations: {
@@ -50,6 +47,9 @@ export const superUser = {
             },
             getProducts(state,payload) {
                 state.products = payload
+            },
+            getIncidences(state,payload) {
+                state.incidences = payload
             }
 
             
@@ -141,7 +141,6 @@ export const superUser = {
                   });
             },
             getProducts(store, id_bar = '%') {
-                console.log('/api/bars/products/'+id_bar.idBar);
                 laravelApiService.get('/api/bars/products/'+id_bar.idBar)
                 .then(({ data }) => {
                     console.log(data);
@@ -152,6 +151,17 @@ export const superUser = {
                     console.log(error);
                   });
             },
+            getIncidences(store) {
+                laravelApiService.get('/api/incidence')
+                .then(({ data }) => {
+                    console.log(data);
+                    store.commit("getIncidences", data.data);
+                  })
+                  .catch((error) => {
+                    console.log("ERROR: getIncidences");
+                    console.log(error);
+                  });
+            },
             createIncidence(store, formData){
                 console.log(store);
                 console.log(formData);
@@ -159,7 +169,12 @@ export const superUser = {
                 .then(({ data }) => {
                     console.log(data);
                 })
-            }
+                .catch((error) => {
+                    console.log("ERROR: createIncidence");
+                    console.log(error);
+                  });
+            },
+
         },
         getters: {
             getUser(state) {
@@ -185,7 +200,11 @@ export const superUser = {
             },
             getProducts(state) {
                 return state.products;
+            },
+            getIncidences(state) {
+                return state.incidences;
             }
+
 
 
             // getBarFromId: state => id => state.bars.find(bar => bar.id = id),
