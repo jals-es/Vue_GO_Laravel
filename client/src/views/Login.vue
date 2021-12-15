@@ -47,6 +47,7 @@ import useVuelidate from '@vuelidate/core'
 import {reactive} from "vue";
 import {email, required} from "@vuelidate/validators"
 import Alert from '@/components/Alert'
+import router from "@/router";
 
 export default {
   name: "Login",
@@ -82,6 +83,7 @@ export default {
                   store.commit('userStore/fillUser', data.data.user)
                   state.alertData.open = true
                   state.alertData.status = data.status
+                  store.getters['userStore/getSuperAdmin'] === true? router.push('/admin/dashboard') : router.push('/bars')
                 }
             )
       }

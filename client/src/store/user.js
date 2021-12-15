@@ -11,6 +11,11 @@ export const userStore = {
             state.user = data
         }
     },
+    getters: {
+        getSuperAdmin: state => {
+            return state.user.superadmin
+        }
+    },
     actions: {
         registerUser(state, data) {
             const user = {users: {}}
