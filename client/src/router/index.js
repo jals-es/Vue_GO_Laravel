@@ -22,6 +22,14 @@ const routes = [
   {
     path: '/admin/incidences/',
     component: () => import('@/views/SuperAdminIncidencesManagement.vue'),
+  },
+  {
+    path: '/register',
+    component: () => import('@/views/Register')
+  },
+  {
+    path:'/login',
+    component: () => import('@/views/Login')
   }
 
 ]

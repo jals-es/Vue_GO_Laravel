@@ -14,13 +14,13 @@ class CreateUsers extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->string('id')->primary();;
+            $table->string('id')->primary();
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('photo');
             $table->string('passwd');
             $table->timestamps();
-            $table->string('status');
+            $table->integer('status');
         });
     }
 

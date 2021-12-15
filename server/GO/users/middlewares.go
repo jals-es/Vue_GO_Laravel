@@ -64,9 +64,10 @@ func AuthMiddleware(auto401 bool) gin.HandlerFunc {
 			return
 		}
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-			my_user_id := uuid.NewV4();
-			fmt.Println(my_user_id,claims["id"])
-			UpdateContextUserModel(c, my_user_id)
+			
+			get_my_id := uuid.Must(uuid.FromString(fmt.Sprintf("%v", claims["id"])))
+			
+			UpdateContextUserModel(c, get_my_id)
 		}
 	}
 }

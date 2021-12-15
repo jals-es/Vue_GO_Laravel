@@ -61,29 +61,33 @@ func Login(c *gin.Context){
 		postBody, _ := json.Marshal(map[string]string{
 			"user":  userModel.Email,
 			"passwd": userModel.Passwd,
-		 })
-		 responseBody := bytes.NewBuffer(postBody)
-	  //Leverage Go's HTTP Post function to make request
-		 resp, err := http.Post("http://127.0.0.1:8000/api/auth", "application/json", responseBody)
-	  //Handle Error
-		 if err != nil {
+		})
+		responseBody := bytes.NewBuffer(postBody)
+	  	//Leverage Go's HTTP Post function to make request
+		resp, err := http.Post("http://127.0.0.1:8000/api/auth", "application/json", responseBody)
+	  	//Handle Error
+		if err != nil {
 			log.Fatalf("An Error Occured %v", err)
-		 }
-		 defer resp.Body.Close()
+		}
+		defer resp.Body.Close()
 
-		 body, err := ioutil.ReadAll(resp.Body)
+		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			log.Fatalln(err)
 		}
-		sb := string(body)
-		log.Printf(sb)
+		sb := string([]byte(body))
+		
+		fmt.Println(sb)
+
+		var raw map[string]string
+		json.Unmarshal([]byte(sb), &raw)
+
+		UpdateContextUserModel(c, userModel.ID)
+		serializer := UserSerializer{c}
+		c.JSON(http.StatusCreated, gin.H{ "user": serializer.SuperResponse(raw["data"])})
+	}else{
+		UpdateContextUserModel(c, userModel.ID)
+		serializer := UserSerializer{c}
+		c.JSON(http.StatusCreated, gin.H{ "user": serializer.Response()})
 	}
-
-	// fmt.Println(uuid.UUID)
-
-
-	// c.Set("my_user_model", userModel)
-	UpdateContextUserModel(c, userModel.ID)
-	serializer := UserSerializer{c}
-	c.JSON(http.StatusCreated, gin.H{"user": serializer.Response()})
 }
