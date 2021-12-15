@@ -3,17 +3,19 @@ package common
 import (
 	"fmt"
 	"time"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"gopkg.in/go-playground/validator.v8"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/satori/go.uuid"
+	// "github.com/joho/godotenv"
 )
 
 // Keep this two config private, it should not expose to open source
-const NBSecretPassword = "A String Very Very Very Strong!!@##$!@#$"
-const NBRandomPassword = "A String Very Very Very Niubilty!!@##$!@#4"
+var NBSecretPassword = os.Getenv("SECRET_JWT")
+var NBRandomPassword = os.Getenv("SECRET_PASS")
 
 type CommonError struct {
 	Errors map[string]interface{} `json:"errors"`

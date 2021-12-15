@@ -29,12 +29,6 @@ func Register(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"message": "Usuario registrado correctamente"})
 }
 
-type httpresponse struct {
-	Success bool	`json:"success"`
-	Message string	`json:"message"`
-	Data	string	`json:"data"`
-}
-
 func Login(c *gin.Context){
 	userModelValidator := NewLoginUserModelValidator()
 
