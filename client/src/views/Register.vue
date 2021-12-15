@@ -2,21 +2,57 @@
   <div class="main">
     <div class="text-center">
       <main class="form-signin">
-        <form novalidate @submit.prevent="submit">
+        <form @submit.prevent="submit">
           <h1 class="h3 mb-3 fw-normal">Welcome to AppBar!</h1>
           <div class="form-floating">
-            <input type="text" class="form-control" id="floatingNameInput" placeholder="John Wick" v-model="name">
+            <input type="text" class="form-control"
+                   :class="{'is-invalid': this.v$.form.name.$error, 'is-valid': !this.v$.form.name.$error && !this.v$.form.name.$invalid}"
+                   id="floatingNameInput" placeholder="John Wick"
+                   v-model="state.form.name">
             <label for="floatingNameInput">Full Name</label>
+            <div class="invalid-feedback" v-if="this.v$.form.name.$error">
+              <p v-for="(error, index) in this.v$.form.name.$errors" :key="index">
+                {{ error.$message }}
+              </p>
+            </div>
           </div>
           <div class="form-floating">
-            <input type="email" class="form-control" id="floatingMailInput" placeholder="name@example.com"
-                   v-model="email">
+            <input type="email" class="form-control"
+                   :class="{'is-invalid': this.v$.form.email.$error}"
+                   id="floatingMailInput" placeholder="name@example.com"
+                   v-model="state.form.email">
             <label for="floatingMailInput">Email address</label>
+            <div class="invalid-feedback" v-if="v$.form.email.$error">
+              <p v-for="(error, index) in this.v$.form.email.$errors" :key="index">
+                {{ error.$message }}
+              </p>
+            </div>
           </div>
           <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
-                   v-model="password">
+            <input type="password" class="form-control"
+                   :class="{'is-invalid': this.v$.form.passwd.$error, 'is-valid': !this.v$.form.passwd.$error && !this.v$.form.passwd.$invalid}"
+                   @change.capture="this.v$.$touch()"
+                   id="floatingPassword" placeholder="Password"
+                   v-model="state.form.passwd" @change="this.v$.$touch()">
             <label for="floatingPassword">Password</label>
+            <div class="invalid-feedback" v-if="v$.form.passwd.$error">
+              <p v-for="(error, index) in this.v$.form.passwd.$errors" :key="index">
+                {{ error.$message }}
+              </p>
+            </div>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control last"
+                   @change.capture="this.v$.$touch()"
+                   :class="{'is-invalid': this.v$.form.passwdCheck.$error, 'is-valid': !this.v$.form.passwdCheck.$error && !this.v$.form.passwdCheck.$invalid}"
+                   id="floatingPasswordCheck" placeholder="Password"
+                   v-model="state.form.passwdCheck" @change="this.v$.$touch()">
+            <label for="floatingPasswordCheck">Confirm Password</label>
+            <div class="invalid-feedback" v-if="v$.form.passwdCheck.$error">
+              <p v-for="(error, index) in this.v$.form.passwdCheck.$errors" :key="index">
+                {{ error.$message }}
+              </p>
+            </div>
           </div>
 
           <div class="mb-3">
@@ -24,45 +60,73 @@
               <router-link to="/login">Login Here</router-link>
             </p>
           </div>
-          <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button>
         </form>
       </main>
     </div>
   </div>
+  <Alert :alert-data="state.alertData" v-if="state.alertData.open"></Alert>
 </template>
 
 <script>
-import golangApiService from "@/core/http/golang.api.service";
+import useVuelidate from '@vuelidate/core'
+import {reactive} from "vue";
+import Alert from "@/components/Alert";
+import {email, required, minLength, helpers} from "@vuelidate/validators"
+import {useStore} from "vuex";
 
 export default {
   name: "Register",
-  data() {
-    return {
-      name: '',
-      email: '',
-      password: ''
+  components: {Alert},
+  setup() {
+    const store = useStore()
+    const state = reactive({
+      form: {
+        name: '',
+        email: '',
+        passwd: '',
+        passwdCheck: ''
+      },
+      alertData: {
+        open: false,
+        message: '',
+        status: 0
+      }
+    })
+    const ensurePasswordIsSame = (passwd) => passwd === state.form.passwd
+    const validations = {
+      form: {
+        name: {required},
+        email: {required, email},
+        passwd: {required, minLength: minLength(8)},
+        passwdCheck: {
+          required,
+          minLength: minLength(8),
+          ensurePasswordIsSame: helpers.withMessage('Password does not match', ensurePasswordIsSame)
+        },
+      }
     }
-  },
-  methods: {
-    submit(){
-      const user = {
-        users: {
-          name: this.name,
-          email: this.email,
-          passwd: this.password
-        }
+    const v$ = useVuelidate(validations, state)
+
+    function submit() {
+      if (!this.v$.$error) {
+        store.dispatch('userStore/registerUser', state.form).then(data => {
+          console.log(data)
+          state.alertData.open = true
+          state.alertData.message = data.data.message
+          state.alertData.status = data.status
+        })
       }
 
-      golangApiService.post('/api/user/', user)
-      .then(({ data }) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log("ERROR: userData");
-        console.log(error);
-      });
     }
-  }
+
+    return {
+      state,
+      v$,
+      validations,
+      submit
+    }
+  },
 }
 </script>
 
@@ -94,10 +158,16 @@ export default {
 }
 
 .form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  margin-bottom: -1px;
+  border-radius: 0;
 }
+
+.last {
+  margin-bottom: 10px !important;
+  border-bottom-right-radius: 0.25rem !important;
+  border-bottom-left-radius: 0.25rem !important;
+}
+
 
 .main {
   display: flex;
