@@ -14,7 +14,7 @@ class CreateIncidencePhotos extends Migration
     public function up()
     {
         Schema::create('incidence_photos', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary();
             $table->string("name");
             $table->string("path");
             $table->string("id_incidence");

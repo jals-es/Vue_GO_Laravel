@@ -3,11 +3,10 @@ namespace App\Services;
 
 use App\Models\Incidence;
 use App\Models\IncidencePhoto;
+use Illuminate\Support\Str;
 
 class IncidenceService
 {
-    protected Incidence $incidence;
-    // protected IncidencePhoto $incidencePhoto;
 
     public function __construct(Incidence $incidence, IncidencePhoto $incidencePhoto)
     {
@@ -15,11 +14,17 @@ class IncidenceService
         $this->incidencePhoto = $incidencePhoto;
     }
 
-    public function syncPhotos(Incidence $incidence, array $photos): void
+    public function syncPhotos($incidence, array $photos): void
     {
-
         foreach ($photos as $photo) {
-            // $tagsIds[] = $this->tag->firstOrCreate(['name' => $tag])->id;
+                $fileName = time().'_'.$photo->getClientOriginalName();
+                $photo->move(public_path().'/uploads/', $fileName);
+                IncidencePhoto::create([
+                    'id' => Str::uuid(),
+                    'name' => $fileName,
+                    'id_incidence' => $incidence,
+                    'path' => public_path().'/uploads/'.$fileName,
+                ]);
         }
     }
 }

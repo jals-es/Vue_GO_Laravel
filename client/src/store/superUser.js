@@ -152,6 +152,14 @@ export const superUser = {
                     console.log(error);
                   });
             },
+            createIncidence(store, formData){
+                console.log(store);
+                console.log(formData);
+                laravelApiService.post('api/incidence', formData)
+                .then(({ data }) => {
+                    console.log(data);
+                })
+            }
         },
         getters: {
             getUser(state) {

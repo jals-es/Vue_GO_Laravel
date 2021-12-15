@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 class IncidenceRepository
 {
     use ErrorTrait;
-    public function createIncidence(IncidenceRequest $req)
+    public function createIncidence()
     {
         $header = request()->header('Authorization', '');
 
@@ -20,16 +20,18 @@ class IncidenceRepository
 
 
         try {
-            if (Incidence::create([
-                'id' => Str::uuid(),
+            $uuid = Str::uuid();
+            $newIncidence = Incidence::create([
+                'id' => $uuid,
                 'name' => request()->name,
                 'status' => 1,
                 'owner' => app('App\Http\Controllers\Api\V2\AuthController')->userId($jwt)[0]->id,
                 'closer' => null,
                 'descr' => request()->descr,
                 'fix' => null,
-            ])) {
-                return "success";
+            ]);
+            if ($newIncidence) {
+                return $uuid;
             }
         } catch (\Exception $e) {
             return self::throwError();
