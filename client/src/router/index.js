@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 const routes = [{
         path: '/',
-        redirect: '/home',
+        redirect: '/login',
         component: () =>
             import ('@/views/Home.vue')
     },
@@ -40,6 +40,11 @@ const routes = [{
         path: '/bars',
         component: () =>
             import ('@/views/YourBars')
+    },
+    {
+        path: '/bars/createBars',
+        component: () =>
+            import ('@/views/CreateBars')
     }
 
 ]

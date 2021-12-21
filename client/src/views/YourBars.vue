@@ -1,12 +1,13 @@
 <template>
-    <div class="cerrarSession mx-3 p-1">Salir</div>
-    <div class="createBar mt-3 mx-auto py-1 rounded-circle">+</div>
-    <BarAdminListBars :bars="bars.bars"></BarAdminListBars>
+    <div class="cerrarSession mx-3 p-1" @click="logOut">Salir</div>
+    <div class="createBar mt-3 mx-auto py-1 rounded-circle" @click="createBars">+</div>
+    <BarAdminListBars :bars="state.bars.bars"></BarAdminListBars>
 </template>
 
 <script>
 import BarAdminListBars from '@/components/bars/BarAdmin_ListBars.vue'
-import { computed } from "vue";
+import router from '@/router'
+import { computed, reactive } from "vue";
 import { useStore } from "vuex";
 export default {
     components: { BarAdminListBars },
@@ -18,12 +19,23 @@ export default {
         store.dispatch("barStore/getBars");
 
         //Agafem els datos
-        const bars = computed(() => store.getters["barStore/getBars"]);
+        const state = reactive({
+            bars: computed(() => store.getters["barStore/getBars"])
+        });
 
-        console.log(bars)
+        function createBars(){
+            router.push("/bars/createBars")
+        }
+
+        function logOut(){
+            localStorage.removeItem("token")
+            router.push("/login")
+        }
 
         return {
-            bars
+            state,
+            createBars,
+            logOut
         };
     }    
 }

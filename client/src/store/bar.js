@@ -1,4 +1,5 @@
 import golangApiService from "@/core/http/golang.api.service";
+import router from "../router";
 
 export const barStore = {
     namespaced: true,
@@ -14,15 +15,27 @@ export const barStore = {
         getBars(store) {
             golangApiService.get('/api/bar/')
                 .then(({ data }) => {
-                    console.log(data);
                     store.commit("getBars", data);
                 })
                 .catch((error) => {
                     console.log("ERROR: getBars");
                     console.log(error);
                 });
+        },
+        createBar(store, data) {
+            const bar = { bar: { name: data.name, descr: data.descr, lat: String(data.lat), lon: String(data.lon), city: data.city, address: data.address } }
+            golangApiService.post('/api/bar/', bar)
+                .then(({ data }) => {
+                    if (data.message) {
+                        if (data.message === "Bar creado correctamente") {
+                            router.push("/bars");
+                        }
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
-
     },
     getters: {
         getBars(state) {
