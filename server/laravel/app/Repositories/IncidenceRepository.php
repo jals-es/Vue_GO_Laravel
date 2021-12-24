@@ -30,14 +30,7 @@ class IncidenceRepository
             $inc->update(['closer' => self::getId(), 'fix' => request()->incidenceFix]);
         }
     }
-    // public function deleteIncidence()
-    // {
-    //     // if (Gate::allows('isOwner', Incidence::find() request()->)) {
-    //     //     echo 'Allowed';
-    //     //   } else {
-    //     //     echo 'Not Allowed';
-    //     //   }
-    // }
+
     public function createIncidence()
     {
         try {
