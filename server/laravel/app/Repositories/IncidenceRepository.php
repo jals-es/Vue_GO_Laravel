@@ -17,6 +17,7 @@ class IncidenceRepository
     {
         $data = Incidence::all();
         foreach ($data as $key => $ind) {
+            $data[$key]->name = $data[$key]->getName();
             $data[$key]->own = self::checkId($data[$key]->owner);
             $data[$key]->photos = $ind->photos;
         }

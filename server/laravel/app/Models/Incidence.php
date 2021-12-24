@@ -23,7 +23,10 @@ class Incidence extends Model
     public function closeIncidence()
     {
         $this->status = 1;
-
+    }
+    public function getName()
+    {
+        return $this->status == 1 ? 'CERRADO: '.$this->name : $this->name;
     }
     public static function boot() {
         parent::boot();
