@@ -20,5 +20,11 @@ class Incidence extends Model
     {
         return $this->belongsTo(User::class, 'id' , 'owner');
     }
-
+    public static function boot() {
+        parent::boot();
+        //Delete photos on cascade :)
+        static::deleting(function($incidence) { // Before delete method
+             $incidence->photos()->delete();
+        });
+    }
 }
