@@ -10,7 +10,7 @@ class Incidence extends Model
     use HasFactory;
 
     protected $table = 'incidences';
-    protected $fillable = ['name','descr','id','owner'];
+    protected $fillable = ['name','descr','id','owner','status'];
 
     public function photos()
     {
@@ -19,6 +19,11 @@ class Incidence extends Model
     public function owner()
     {
         return $this->belongsTo(User::class, 'id' , 'owner');
+    }
+    public function closeIncidence()
+    {
+        $this->status = 1;
+
     }
     public static function boot() {
         parent::boot();

@@ -24,17 +24,20 @@ class IncidenceRepository
     }
     public function update()
     {
-        Incidence::where('id', request()->id)
-        ->update(['status' => 2, 'closer' => self::getId(), 'fix' => request()->incidenceFix]);
+        $inc = Incidence::where('id', request()->id)->first();
+        if ($inc->status == 0) {
+            $inc->closeIncidence();
+            $inc->update(['closer' => self::getId(), 'fix' => request()->incidenceFix]);
+        }
     }
-    public function deleteIncidence()
-    {
-        // if (Gate::allows('isOwner', Incidence::find() request()->)) {
-        //     echo 'Allowed';
-        //   } else {
-        //     echo 'Not Allowed';
-        //   }
-    }
+    // public function deleteIncidence()
+    // {
+    //     // if (Gate::allows('isOwner', Incidence::find() request()->)) {
+    //     //     echo 'Allowed';
+    //     //   } else {
+    //     //     echo 'Not Allowed';
+    //     //   }
+    // }
     public function createIncidence()
     {
         try {

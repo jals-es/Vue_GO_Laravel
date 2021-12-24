@@ -29,6 +29,7 @@ use App\Http\Controllers\Api\V2\AuthController;
                 Route::patch('incidence', [IncidenceController::class, 'close'])->name('close');
                 Route::delete('incidence/{id}', [IncidenceController::class, 'delete'])->name('delete');
 
+
             });
             Route::name('bars.')->group(function () {
 

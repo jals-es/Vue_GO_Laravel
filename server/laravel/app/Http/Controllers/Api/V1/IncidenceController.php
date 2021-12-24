@@ -25,7 +25,7 @@ class IncidenceController extends Controller
     public function list() {
         return response()->json(['status' =>'success', 'data' => $this->incidenceRepository->list()], 201);
     }
-    public function update() {
+    public function close() {
         return response()->json(['status' =>'success', 'data' => $this->incidenceRepository->update()], 201);
     }
     public function store(Request $request) {
