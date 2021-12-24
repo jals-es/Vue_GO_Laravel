@@ -4,28 +4,36 @@ namespace App\Repositories;
 
 use App\Models\Incidence;
 use App\Traits\ErrorTrait;
+use App\Traits\UserTrait;
 use App\Http\Requests\IncidenceRequest;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Gate;
 
 class IncidenceRepository
 {
     use ErrorTrait;
+    use UserTrait;
     public function list()
     {
-        // $own = Incidence::where('owner', '=', app('App\Http\Controllers\Api\V2\AuthController')->userId(Str::substr(request()->header('Authorization', ''), 7))[0]->id)->get();
-        // foreach ($own as $key => $inc) {
-        //     $own[$key]->photos = $inc->photos;
-        // }
-        // $rest = Incidence::where('owner', '!=', app('App\Http\Controllers\Api\V2\AuthController')->userId(Str::substr(request()->header('Authorization', ''), 7))[0]->id)->get();
-        // foreach ($rest as $key => $inc) {
-        //     $rest[$key]->photos = $inc->photos;
-        // }
         $data = Incidence::all();
         foreach ($data as $key => $ind) {
-            $data[$key]->own = $data[$key]->owner == app('App\Http\Controllers\Api\V2\AuthController')->userId(Str::substr(request()->header('Authorization', ''), 7))[0]->id ? true : false;
+            $data[$key]->own = self::checkId($data[$key]->owner);
             $data[$key]->photos = $ind->photos;
         }
         return $data;
+    }
+    public function update()
+    {
+        Incidence::where('id', request()->id)
+        ->update(['status' => 2, 'closer' => self::getId(), 'fix' => request()->incidenceFix]);
+    }
+    public function deleteIncidence()
+    {
+        // if (Gate::allows('isOwner', Incidence::find() request()->)) {
+        //     echo 'Allowed';
+        //   } else {
+        //     echo 'Not Allowed';
+        //   }
     }
     public function createIncidence()
     {
@@ -35,7 +43,7 @@ class IncidenceRepository
                 'id' => $uuid,
                 'name' => request()->name,
                 'status' => 1,
-                'owner' => app('App\Http\Controllers\Api\V2\AuthController')->userId(Str::substr(request()->header('Authorization', ''), 7))[0]->id,
+                'owner' => self::getId(),
                 'closer' => null,
                 'descr' => request()->descr,
                 'fix' => null,

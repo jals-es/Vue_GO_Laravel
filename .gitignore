@@ -5,3 +5,4 @@
 *.jpeg
 */uploads/*
 faltafer.txt
+*/database.go

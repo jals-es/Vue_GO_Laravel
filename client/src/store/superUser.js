@@ -163,8 +163,26 @@ export const superUser = {
                   });
             },
             createIncidence(store, formData){
-                console.log(store);
-                console.log(formData);
+                laravelApiService.post('api/incidence', formData)
+                .then(({ data }) => {
+                    console.log(data);
+                })
+                .catch((error) => {
+                    console.log("ERROR: createIncidence");
+                    console.log(error);
+                  });
+            },
+            updateIncidence(store, formData){
+                laravelApiService.patch('api/incidence', formData)
+                .then(({ data }) => {
+                    console.log(data);
+                })
+                .catch((error) => {
+                    console.log("ERROR: createIncidence");
+                    console.log(error);
+                  });
+            },
+            deleteIncidence(store, formData){
                 laravelApiService.post('api/incidence', formData)
                 .then(({ data }) => {
                     console.log(data);
@@ -204,10 +222,5 @@ export const superUser = {
             getIncidences(state) {
                 return state.incidences;
             }
-
-
-
-            // getBarFromId: state => id => state.bars.find(bar => bar.id = id),
-            // getOrderFromId: state => id => state.order.find(order => order.id = id),
         }
     }

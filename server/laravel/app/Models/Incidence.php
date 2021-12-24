@@ -16,5 +16,9 @@ class Incidence extends Model
     {
         return $this->hasMany(IncidencePhoto::class, 'id_incidence' , 'id');
     }
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'id' , 'owner');
+    }
 
 }

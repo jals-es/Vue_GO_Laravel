@@ -26,6 +26,8 @@ use App\Http\Controllers\Api\V2\AuthController;
             Route::name('incidence.')->group(function () {
                 Route::post('incidence', [IncidenceController::class, 'store'])->name('store');
                 Route::get('incidence', [IncidenceController::class, 'list'])->name('list');
+                Route::patch('incidence', [IncidenceController::class, 'close'])->name('close');
+                Route::delete('incidence/{id}', [IncidenceController::class, 'delete'])->name('delete');
 
             });
             Route::name('bars.')->group(function () {
