@@ -25,10 +25,11 @@ class IncidenceRepository
     }
     public function update()
     {
-        $inc = Incidence::where('id', request()->id)->first();
-        if ($inc->status == 0) {
-            $inc->closeIncidence();
+        $inc = Incidence::where('id', request()->id);
+        if ($inc->first()->status == 0) {
+            $inc->first()->closeIncidence();
             $inc->update(['closer' => self::getId(), 'fix' => request()->incidenceFix]);
+            return $inc;
         }
     }
 
@@ -39,7 +40,7 @@ class IncidenceRepository
             $newIncidence = Incidence::create([
                 'id' => $uuid,
                 'name' => request()->name,
-                'status' => 1,
+                'status' => 0,
                 'owner' => self::getId(),
                 'closer' => null,
                 'descr' => request()->descr,

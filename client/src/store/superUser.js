@@ -166,26 +166,31 @@ export const superUser = {
                 laravelApiService.post('api/incidence', formData)
                 .then(({ data }) => {
                     console.log(data);
+                    store.dispatch("getIncidences");
+
                 })
                 .catch((error) => {
                     console.log("ERROR: createIncidence");
                     console.log(error);
                   });
             },
-            updateIncidence(store, formData){
+            closeIncidence(store, formData){
+                console.log(formData);
                 laravelApiService.patch('api/incidence', formData)
                 .then(({ data }) => {
+                    store.dispatch("getIncidences");
                     console.log(data);
                 })
                 .catch((error) => {
-                    console.log("ERROR: createIncidence");
+                    console.log("ERROR: closeIncidence");
                     console.log(error);
                   });
             },
             deleteIncidence(store, formData){
-                laravelApiService.post('api/incidence', formData)
+                laravelApiService.delete('api/incidence/'+formData)
                 .then(({ data }) => {
                     console.log(data);
+                    store.dispatch("getIncidences");
                 })
                 .catch((error) => {
                     console.log("ERROR: createIncidence");

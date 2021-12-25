@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Incidence extends Model
 {
     use HasFactory;
-
+    public $incrementing = false; // Si no laravel automaticament pensa que es una clau primaria AI i fica 0, 1, 2 en vegada del verdader id
     protected $table = 'incidences';
     protected $fillable = ['name','descr','id','owner','status'];
 
@@ -23,6 +23,7 @@ class Incidence extends Model
     public function closeIncidence()
     {
         $this->status = 1;
+        $this->save();
     }
     public function getName()
     {

@@ -79,7 +79,7 @@
           >
             Close
           </button>
-          <button class="col btn btn-danger">Remove</button>
+          <button class="col btn btn-danger" @click="deleteIncidence(incidence.id)">Remove</button>
         </div>
       </div>
     </div>
@@ -102,7 +102,10 @@ export default {
       store.dispatch("superUser/deleteIncidence", id);
     }
     function closeIncidence(id) {
-      store.dispatch("superUser/closeIncidence", id, incidenceFix.incidenceFix);
+      store.dispatch("superUser/closeIncidence", {
+        "id": id,
+        "incidenceFix": incidenceFix.incidenceFix
+      });
     }
     return {
       deleteIncidence,
