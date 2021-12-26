@@ -41,9 +41,13 @@ func UpdateContextUserModel(c *gin.Context, my_user_id uuid.UUID) {
 	// }
 
 	db := common.GetDB()
-	db.First(&myUserModel, my_user_id)
+	/*err :=*/ db.First(&myUserModel, my_user_id)
 	
-	
+	// if err != nil {
+	// 	c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Usuario no encontrado"})
+	// }else{
+		
+	// }
 	c.Set("my_user_id", my_user_id)
 	c.Set("my_user_model", myUserModel)
 }
@@ -59,14 +63,14 @@ func AuthMiddleware(auto401 bool) gin.HandlerFunc {
 		})
 		if err != nil {
 			if auto401 {
-				c.AbortWithError(http.StatusUnauthorized, err)
+				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Token expirado"})
 			}
 			return
 		}
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-			
+
 			get_my_id := uuid.Must(uuid.FromString(fmt.Sprintf("%v", claims["id"])))
-			
+
 			UpdateContextUserModel(c, get_my_id)
 		}
 	}

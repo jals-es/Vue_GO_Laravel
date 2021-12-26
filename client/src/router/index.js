@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Auth from '@/core/check.js'
 const routes = [{
         path: '/',
         redirect: '/login',
@@ -39,12 +40,14 @@ const routes = [{
     {
         path: '/bars',
         component: () =>
-            import ('@/views/YourBars')
+            import ('@/views/YourBars'),
+        beforeEnter: Auth.checkAdmin
     },
     {
         path: '/bars/createBars',
         component: () =>
-            import ('@/views/CreateBars')
+            import ('@/views/CreateBars'),
+        beforeEnter: Auth.checkAdmin
     }
 
 ]

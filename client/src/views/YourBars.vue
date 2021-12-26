@@ -94,6 +94,7 @@ export default {
     text-align: center;
     text-decoration: none;
     color: black;
+    transition: 0.5s;
 }
 
 .bar:hover{
@@ -114,5 +115,23 @@ export default {
 .bar .rol{
     grid-area: rol;
     text-transform: Capitalize;
+}
+
+@media (max-width: 1200px){
+    .bar{
+        width: 80%;
+    }
+}
+
+@media (max-width: 700px){
+    .bar{
+        width: 100%;
+        grid-template-columns: 1fr; 
+        grid-template-rows: 1fr 1fr 1fr; 
+        grid-template-areas: 
+            "name"
+            "city"
+            "rol";
+    }
 }
 </style>

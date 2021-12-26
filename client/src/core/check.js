@@ -1,25 +1,32 @@
-import router from "@/router";
-import { computed, nextTick } from "vue";
-import { useStore } from "vuex";
+// import router from "@/router";
+// import { computed } from "vue";
+// import { useStore } from "vuex";
+import golangApiService from "@/core/http/golang.api.service";
 
-checkAdmin = () => {
-    if (localStorage.getItem("token")) {
-        // Cridem al store
-        const store = useStore();
+export default {
+    checkAdmin(to, from, next) {
+        console.log(to);
 
-        // Omplim el state
-        store.dispatch("barStore/getBars");
+        if (localStorage.getItem("token")) {
 
-        //Agafem els datos
-        const user = computed(() => store.getters["barStore/getBars"]);
+            golangApiService.get('/api/user/')
+                .then(({ data }) => {
+                    console.log(data);
+                    console.log('correcte');
+                    if (data.data == "Usuario verificado") {
+                        next();
+                    } else {
+                        next("/login");
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                    next("/login");
+                })
 
-        console.log(user);
-
-        if (user) {
-            return next();
+        } else {
+            console.log('no troba token');
+            next("/login");
         }
     }
-
-    router.push("/login");
-    return false;
 }
