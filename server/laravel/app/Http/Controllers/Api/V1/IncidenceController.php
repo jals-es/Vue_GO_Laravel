@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Jobs\SendEmailJob;
 use App\Http\Controllers\Controller;
 use App\Services\IncidenceService;
 use App\Http\Requests\IncidenceRequest;
@@ -34,6 +35,7 @@ class IncidenceController extends Controller
             'file.*' => 'mimes:jpeg,jpg,png|max:2048'
           ]);
         $createIncidence = $this->incidenceRepository->createIncidence();
+        SendEmailJob::dispatch(env('ADMINMAIL'));
         $this->incidenceService->syncPhotos($createIncidence, $request->file('file'));
         return response()->json(['status' =>'success', 'data' => 'succes created'], 201);
     }
