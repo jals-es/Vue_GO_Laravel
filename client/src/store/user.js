@@ -1,5 +1,8 @@
 import golangApiService from "@/core/http/golang.api.service";
 
+import { httpClient as laravelHttpClient } from "@/core/http/laravel.api.service";
+import { httpClient as golangHttpClient } from "@/core/http/golang.api.service";
+
 export const userStore = {
     namespaced: true,
     state: {
@@ -32,8 +35,13 @@ export const userStore = {
                 golangApiService.put('/api/user/', user)
                     .then(result => {
                         resolve(result)
-                        localStorage.setItem('token', result.data.user.token)
-
+                        if (result.data.user.superadmin) {
+                            localStorage.setItem('jwt', result.data.user.token);
+                            laravelHttpClient.defaults.headers.common['Authorization'] = `Bearer ` + localStorage.getItem("jwt");
+                        } else {
+                            localStorage.setItem('token', result.data.user.token);
+                            golangHttpClient.defaults.headers.common['Authorization'] = "Token " + localStorage.getItem("token");
+                        }
                     })
                     .catch(error => reject(error))
             }))

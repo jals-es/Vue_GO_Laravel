@@ -16,11 +16,13 @@ export default {
                     if (data.data == "Usuario verificado") {
                         next();
                     } else {
+                        localStorage.removeItem("token");
                         next("/login");
                     }
                 })
                 .catch((error) => {
                     console.log(error)
+                    localStorage.removeItem("token");
                     next("/login");
                 })
 

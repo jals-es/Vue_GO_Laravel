@@ -4,7 +4,10 @@ import coreConfig from "@/core/config"
 export const httpClient = axios.create({
     baseURL: coreConfig.LARAVEL_URL
 })
-httpClient.defaults.headers.common['Authorization'] = `Bearer ` + localStorage.getItem("jwt"); // for all requests
+
+if (localStorage.getItem("jwt")) {
+    httpClient.defaults.headers.common['Authorization'] = `Bearer ` + localStorage.getItem("jwt"); // for all requests
+}
 
 const laravelApiService = {
 
