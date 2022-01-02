@@ -7,26 +7,28 @@ import (
 	"gorm.io/gorm"
 )
 
-type RoleModel struct {
-	ID     uuid.UUID `gorm:"column:id;type:uuid;primary_key;"`
-	Name   string    `gorm:"column:name"`
-	Status int       `gorm:"column:status"`
+type Role struct {
+	ID          uuid.UUID    `gorm:"column:id;type:uuid;primary_key;"`
+	Name        string       `gorm:"column:name"`
+	Status      int          `gorm:"column:status"`
+	Permissions []Permission `gorm:"many2many:rol_permissions;"`
 }
 
-type PermissionModel struct {
+type Permission struct {
 	ID   uuid.UUID `gorm:"column:id; type:uuid;primary_key;"`
 	Desc string    `gorm:"column:descr"`
 	Name string    `gorm:"column:name"`
+	Role []Role    `gorm:"many2many:rol_permissions;"`
 }
 
-type RolePermissionModel struct {
-	IdRole       uuid.UUID `gorm:"column:id_rol; type:uuid; primary_key"`
-	IdPermission uuid.UUID `gorm:"column:id_perm; type:uuid; primary_key"`
-}
-
-func (r *RoleModel) BeforeCreate(tx *gorm.DB) (err error) {
+func (r *Role) BeforeCreate(tx *gorm.DB) (err error) {
 	r.ID = uuid.NewV4()
 	r.Status = 0
+	return
+}
+
+func (p *Permission) BeforeCreate(tx *gorm.DB) (err error) {
+	p.ID = uuid.NewV4()
 	return
 }
 
@@ -34,16 +36,12 @@ type Tabler interface {
 	TableName() string
 }
 
-func (RoleModel) TableName() string {
+func (Role) TableName() string {
 	return "roles"
 }
 
-func (PermissionModel) TableName() string {
+func (Permission) TableName() string {
 	return "permissions"
-}
-
-func (RolePermissionModel) TableName() string {
-	return "rol_permissions"
 }
 
 func SaveOne(data interface{}) error {
@@ -52,51 +50,44 @@ func SaveOne(data interface{}) error {
 	return err
 }
 
-func FindRoles() ([]RoleModel, error) {
+func FindRoles() ([]Role, error) {
 	db := common.GetDB()
-	var model []RoleModel
-	err := db.Find(&model).Error
+	var model []Role
+	err := db.Preload("Permissions").Find(&model).Error
 	return model, err
 }
 
-func FindOneRole(condition interface{}) (RoleModel, error) {
+func FindOneRole(condition interface{}) (Role, error) {
 	db := common.GetDB()
-	var model RoleModel
+	var model Role
 	err := db.Where(condition).First(&model).Error
 	return model, err
 }
 
 func DeleteRole(id string) error {
 	db := common.GetDB()
-	var model RoleModel
-	err := db.Where(fmt.Sprintf("id = %q", id)).Delete(&model).Error
+	var model Role
+	err := db.Model(&model).Where(fmt.Sprintf("id = %q", id)).Update("status", 1).Error
 	return err
 }
 
-func FindOnePermission(id string) (PermissionModel, error) {
+func FindOnePermission(id string) (Permission, error) {
 	db := common.GetDB()
-	var model PermissionModel
+	var model Permission
 	err := db.Where(fmt.Sprintf("id = %q", id)).First(&model).Error
 	return model, err
 }
 
-func FindPermissions() ([]PermissionModel, error) {
+func FindPermissions() ([]Permission, error) {
 	db := common.GetDB()
-	var model []PermissionModel
+	var model []Permission
 	err := db.Find(&model).Error
-	return model, err
-}
-
-func GetPermissionFromRole(condition interface{}) (RolePermissionModel, error) {
-	db := common.GetDB()
-	var model RolePermissionModel
-	err := db.Where(condition).First(&model).Error
 	return model, err
 }
 
 func DeletePerm(id string) error {
 	db := common.GetDB()
-	var model PermissionModel
+	var model Permission
 	err := db.Where(fmt.Sprintf("id = %q", id)).Delete(&model).Error
 	return err
 }
