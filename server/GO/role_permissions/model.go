@@ -2,6 +2,7 @@ package role_permissions
 
 import (
 	"appbar/common"
+	"fmt"
 	"github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
@@ -65,10 +66,17 @@ func FindOneRole(condition interface{}) (RoleModel, error) {
 	return model, err
 }
 
-func FindOnePermission(condition interface{}) (PermissionModel, error) {
+func DeleteRole(id string) error {
+	db := common.GetDB()
+	var model RoleModel
+	err := db.Where(fmt.Sprintf("id = %q", id)).Delete(&model).Error
+	return err
+}
+
+func FindOnePermission(id string) (PermissionModel, error) {
 	db := common.GetDB()
 	var model PermissionModel
-	err := db.Where(condition).First(&model).Error
+	err := db.Where(fmt.Sprintf("id = %q", id)).First(&model).Error
 	return model, err
 }
 
@@ -84,4 +92,11 @@ func GetPermissionFromRole(condition interface{}) (RolePermissionModel, error) {
 	var model RolePermissionModel
 	err := db.Where(condition).First(&model).Error
 	return model, err
+}
+
+func DeletePerm(id string) error {
+	db := common.GetDB()
+	var model PermissionModel
+	err := db.Where(fmt.Sprintf("id = %q", id)).Delete(&model).Error
+	return err
 }

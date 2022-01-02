@@ -19,12 +19,12 @@ func init() {
 	}
 
 	db_user := os.Getenv("DB_USER")
-	// db_pass := os.Getenv("DB_PASS")
+	db_pass := os.Getenv("DB_PASS")
 	db_name := os.Getenv("DB_NAME")
 	db_host := os.Getenv("DB_HOST")
 	db_port := os.Getenv("DB_PORT")
 
-	dsn := fmt.Sprintf("%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", db_user, db_host, db_port, db_name)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", db_user, db_pass, db_host, db_port, db_name)
 	conn, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
