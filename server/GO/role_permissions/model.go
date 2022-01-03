@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/satori/go.uuid"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type Role struct {
@@ -18,17 +19,20 @@ type Permission struct {
 	ID   uuid.UUID `gorm:"column:id; type:uuid;primary_key;"`
 	Desc string    `gorm:"column:descr"`
 	Name string    `gorm:"column:name"`
-	Role []Role    `gorm:"many2many:rol_permissions;"`
 }
 
 func (r *Role) BeforeCreate(tx *gorm.DB) (err error) {
-	r.ID = uuid.NewV4()
-	r.Status = 0
+	if r.ID == uuid.Nil {
+		r.ID = uuid.NewV4()
+		r.Status = 0
+	}
 	return
 }
 
 func (p *Permission) BeforeCreate(tx *gorm.DB) (err error) {
-	p.ID = uuid.NewV4()
+	if p.ID == uuid.Nil {
+		p.ID = uuid.NewV4()
+	}
 	return
 }
 
@@ -64,6 +68,20 @@ func FindOneRole(condition interface{}) (Role, error) {
 	return model, err
 }
 
+func Assignation(data interface{}) error {
+	db := common.GetDB()
+	err := db.Clauses(clause.OnConflict{
+		UpdateAll: true,
+	}).Create(data).Error
+	return err
+}
+func DeleteAssignation(data *Role) error {
+	db := common.GetDB()
+
+	err := db.Model(data).Debug().Association("Permissions").Delete(data.Permissions)
+	return err
+}
+
 func DeleteRole(id string) error {
 	db := common.GetDB()
 	var model Role
@@ -81,7 +99,7 @@ func FindOnePermission(id string) (Permission, error) {
 func FindPermissions() ([]Permission, error) {
 	db := common.GetDB()
 	var model []Permission
-	err := db.Find(&model).Error
+	err := db.Debug().Find(&model).Error
 	return model, err
 }
 

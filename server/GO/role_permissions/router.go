@@ -18,6 +18,6 @@ func PrRoutes(router *gin.RouterGroup) {
 	router.DELETE("/permission/*id", DeletePermission)
 	router.GET("/permission/*id", GetDataFromPermission)
 
-	router.POST("/assignation")
-	router.DELETE("/assignation")
+	router.POST("/assignation", AssignPermissionToRole)
+	router.DELETE("/assignation", RemovePermissionFromRole)
 }

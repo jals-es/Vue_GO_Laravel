@@ -3,13 +3,16 @@ package role_permissions
 import (
 	"appbar/common"
 	"github.com/gin-gonic/gin"
+	uuid "github.com/satori/go.uuid"
 )
 
 type RoleValidator struct {
 	Role struct {
-		Name string `form:"name" json:"name" binding:"required"`
+		ID          uuid.UUID    `form:"id" json:"id"`
+		Name        string       `form:"name" json:"name" binding:"required"`
+		Permissions []Permission `form:"permissions" json:"permissions"`
 	} `json:"role"`
-	roleModel RoleModel `json:"-"`
+	roleModel Role `json:"-"`
 }
 
 type PermissionValidator struct {
@@ -17,7 +20,7 @@ type PermissionValidator struct {
 		Name        string `form:"name" json:"name" binding:"required"`
 		Description string `form:"descr" json:"descr" binding:"required"`
 	} `json:"permission"`
-	permissionModel PermissionModel `json:"-"`
+	permissionModel Permission `json:"-"`
 }
 
 func (role *RoleValidator) Bind(c *gin.Context) error {
@@ -26,8 +29,9 @@ func (role *RoleValidator) Bind(c *gin.Context) error {
 	if err != nil {
 		return err
 	}
-
+	role.roleModel.ID = role.Role.ID
 	role.roleModel.Name = role.Role.Name
+	role.roleModel.Permissions = role.Role.Permissions
 
 	return nil
 }
