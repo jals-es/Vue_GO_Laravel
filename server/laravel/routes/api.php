@@ -6,8 +6,10 @@ use App\Http\Controllers\Api\V1\BarController;
 use App\Http\Controllers\Api\V1\IncidenceController;
 use App\Http\Controllers\Api\V1\ChartsController;
 use App\Http\Controllers\Api\V1\ProductsController;
+use App\Http\Controllers\Api\V1\MessagesController;
 use App\Http\Controllers\Api\V2\AuthController;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AdminNotification;
 
 
 /*
@@ -20,19 +22,29 @@ use App\Http\Controllers\Api\V2\AuthController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::get('send_test_email', function(){
+    // $email = new AdminNotification();
+    // Mail::to('antonitormo@gmail.com')->send($email);
+    dispatch(new App\Jobs\SendEmailJob(env('ADMINMAIL')));
+    // Mail::raw('Sending emails with Mailgun and Laravel is easy!', function($message)
+	// {
+	// 	$message->to('antonitormo@gmail.com');
+    //     $message->subject('Open incidence');
+	// });
+});
     Route::name('api.')->group(function () {
+        Route::name('message.')->group(function () {
+            Route::post('message', [MessagesController::class, 'store'])->name('store');
+            Route::get('message', [MessagesController::class, 'fetch'])->name('fetch');
+        });
         Route::middleware([SuperAdmin::class])->group(function(){
             Route::name('incidence.')->group(function () {
                 Route::post('incidence', [IncidenceController::class, 'store'])->name('store');
                 Route::get('incidence', [IncidenceController::class, 'list'])->name('list');
                 Route::patch('incidence', [IncidenceController::class, 'close'])->name('close');
                 Route::delete('incidence/{id}', [IncidenceController::class, 'delete'])->name('delete');
-
-
             });
             Route::name('bars.')->group(function () {
-
                 Route::get('bars', [BarController::class, 'list'])->name('list');
                 Route::get('bars/count', [BarController::class, 'count'])->name('count');
                 Route::get('bars/stats', [BarController::class, 'stats'])->name('stats');
