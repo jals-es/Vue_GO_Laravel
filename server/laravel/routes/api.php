@@ -33,11 +33,12 @@ Route::get('send_test_email', function(){
 	// });
 });
     Route::name('api.')->group(function () {
-        Route::name('message.')->group(function () {
-            Route::post('message', [MessagesController::class, 'store'])->name('store');
-            Route::get('message', [MessagesController::class, 'fetch'])->name('fetch');
-        });
+
         Route::middleware([SuperAdmin::class])->group(function(){
+            Route::name('message.')->group(function () {
+                Route::post('message', [MessagesController::class, 'store'])->name('store');
+                Route::get('message', [MessagesController::class, 'fetch'])->name('fetch');
+            });
             Route::name('incidence.')->group(function () {
                 Route::post('incidence', [IncidenceController::class, 'store'])->name('store');
                 Route::get('incidence', [IncidenceController::class, 'list'])->name('list');
