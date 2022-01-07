@@ -6,7 +6,8 @@ import (
 	"appbar/users"
 	"github.com/gin-gonic/gin"
 	// "net/http"
-	"fmt"
+	"github.com/satori/go.uuid"
+	// "fmt"
 	"errors"
 )
 
@@ -44,6 +45,7 @@ func (prod *NewProdModelValidator) Bind(c *gin.Context) error {
 		return err
 	}
 	
+	prod.prodModel.ID = uuid.NewV4()
 	prod.prodModel.Name = prod.Prod.Name
 	prod.prodModel.Descr = prod.Prod.Descr
 	prod.prodModel.ID_category = prod.Prod.Catego
@@ -51,17 +53,11 @@ func (prod *NewProdModelValidator) Bind(c *gin.Context) error {
 	
 	bar, err := bars.GetBarBySlug(prod.BarSlug)
 
-	// fmt.Println(bar)
-
 	if err != nil {
-		// c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{"message": "El bar no existe"})
 		return err
 	}
 
 	myUserModel := c.MustGet("my_user_model").(users.UserModel)
-
-	fmt.Println(myUserModel.ID)
-	fmt.Println(bar.Owner)
 
 	if bar.Owner != myUserModel.ID {
 		// c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{"message": "No tienes permisos para crear productos en este bar"})

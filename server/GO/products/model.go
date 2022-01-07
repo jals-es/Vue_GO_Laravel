@@ -36,13 +36,13 @@ type ProdTypesModel struct {
 
 type ProdModel struct {
 	ID			uuid.UUID `gorm:"column:id;type:uuid;primary_key;"`
-	ID_bar		uuid.UUID `gorm:"column:name"`
-	ID_category	string `gorm:"column:slug;unique"`
-	Name		string `gorm:"column:descr"`
-	Descr		string `gorm:"column:lat"`
-	Status		int `gorm:"column:lon"`
-	Photo		string `gorm:"column:city"`
-	Slug		string `gorm:"column:address"`
+	ID_bar		uuid.UUID `gorm:"column:id_bar"`
+	ID_category	string `gorm:"column:id_category"`
+	Name		string `gorm:"column:name"`
+	Descr		string `gorm:"column:descr"`
+	Status		int `gorm:"column:status"`
+	Photo		string `gorm:"column:photo"`
+	Slug		string `gorm:"column:slug"`
 }
 
 type Tabler interface {
@@ -63,9 +63,9 @@ func (ProdExtraModel) TableName() string {
 }
 
 func (p *ProdModel) BeforeCreate(tx *gorm.DB) (err error) {
-	id := uuid.NewV4()
+	// id := uuid.NewV4()
 
-	p.ID = id
+	// p.ID = id
 	p.Slug = slug.Make(p.Name)
 	p.Status = 0
 
@@ -93,5 +93,33 @@ func (e *ProdExtraModel) BeforeCreate(tx *gorm.DB) (err error) {
 func SaveOne(data interface{}) error {
 	db := common.GetDB()
 	err := db.Save(data).Error
+	return err
+}
+
+func SaveTypes(data []ProdTypeModel) error {
+	db := common.GetDB()
+
+	tx := db.Begin()
+	
+	for _, thisType := range data {
+		tx.Save(&thisType)
+	}
+
+	err := tx.Commit().Error
+	
+	return err
+}
+
+func SaveExtras(data []ProdExtraModel) error {
+	db := common.GetDB()
+
+	tx := db.Begin()
+	
+	for _, thisExtra := range data {
+		tx.Save(&thisExtra)
+	}
+
+	err := tx.Commit().Error
+	
 	return err
 }
