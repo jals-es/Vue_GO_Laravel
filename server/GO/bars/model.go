@@ -77,12 +77,20 @@ func GetBars(id uuid.UUID) ([]BarRolModel, error) {
 
 	err := tx.Commit().Error
 
-	// fmt.Println(models)
-	// fmt.Println(wmodels)
-
 	for _, bar := range wmodels {
 		models = append(models, bar)
 	}
 
 	return models, err
+}
+
+func GetBarBySlug(thisSlug string) (BarModel, error){
+
+	var model BarModel
+
+	db := common.GetDB()
+
+	err := db.Where("slug = ?", thisSlug).Take(&model).Error
+
+	return model, err
 }
