@@ -1,11 +1,10 @@
 package router
 
 import (
-	"appbar/users"
 	"appbar/bars"
+	"appbar/products"
 	"appbar/role_permissions"
 	"appbar/users"
-	"appbar/products"
 	"github.com/gin-gonic/gin"
 )
 
