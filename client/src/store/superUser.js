@@ -197,6 +197,19 @@ export const superUser = {
                     console.log(error);
                   });
             },
+            newMessage(store, formData){
+                laravelApiService.post('api/message', formData)
+                .then(({ data }) => {
+                    console.log(data);
+                    // store.dispatch("getIncidences");
+
+                })
+                .catch((error) => {
+                    console.log("ERROR: createIncidence");
+                    console.log(error);
+                  });
+            },
+
 
         },
         getters: {

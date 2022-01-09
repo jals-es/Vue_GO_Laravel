@@ -11,6 +11,10 @@ const routes = [
     component: () => import('@/views/SuperAdminDashboard.vue'),
   },
   {
+    path: '/admin/messages/',
+    component: () => import('@/views/SuperAdminMessagesManagement.vue'),
+  },
+  {
     path: '/admin/bars/',
     component: () => import('@/views/SuperAdminBars.vue'),
   },
