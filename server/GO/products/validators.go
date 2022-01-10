@@ -26,7 +26,7 @@ type ProdTypeValidator struct {
 type NewProdModelValidator struct {
 	BarSlug		string	`form:"barslug" json:"barslug" binding:"required"`
 	Prod struct {
-		Name   	string `form:"name" json:"name" binding:"required,min=8,max=255"`
+		Name   	string `form:"name" json:"name" binding:"required"`
 		Descr  	string `form:"descr" json:"descr" binding:"required"`
 		Catego	string `form:"catego" json:"catego" binding:"required"`
 		Photo   string `form:"photo" json:"photo" binding:"required"`
@@ -42,6 +42,7 @@ func (prod *NewProdModelValidator) Bind(c *gin.Context) error {
 	err := common.Bind(c, prod)
 
 	if err != nil {
+		err = errors.New("validacion: el formato del producto es incorrecto")
 		return err
 	}
 	
@@ -54,13 +55,13 @@ func (prod *NewProdModelValidator) Bind(c *gin.Context) error {
 	bar, err := bars.GetBarBySlug(prod.BarSlug)
 
 	if err != nil {
+		err = errors.New("404: no se encuentra el bar")
 		return err
 	}
 
 	myUserModel := c.MustGet("my_user_model").(users.UserModel)
 
 	if bar.Owner != myUserModel.ID {
-		// c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{"message": "No tienes permisos para crear productos en este bar"})
 		err = errors.New("permisos: no tienes permisos")
 		return err
 	}

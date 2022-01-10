@@ -175,3 +175,35 @@ func GetAllProds(id_bar uuid.UUID) ([]AllProdsModel, error){
 
 	return response, err
 }
+
+func GetProd(slug string) (ProdModel, error){
+
+	var prod ProdModel
+
+	db := common.GetDB()
+
+	err := db.Where("slug = ?", slug).Find(&prod).Error
+
+	return prod, err
+}
+
+func DelProd(prod ProdModel) error{ 
+
+	db := common.GetDB()
+
+	tx := db.Begin()
+
+	tx.Delete(&prod)
+
+	var types []ProdTypeModel
+	tx.Where("id_prod = ?", prod.ID).Find(&types)
+	tx.Delete(&types)
+
+	var extras []ProdExtraModel
+	tx.Where("id_prod = ?", prod.ID).Find(&extras)
+	tx.Delete(&extras)
+
+	err := tx.Commit().Error
+
+	return err
+}
