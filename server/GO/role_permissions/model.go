@@ -67,7 +67,7 @@ func FindRoles() ([]Role, error) {
 func FindOneRole(id string) (Role, error) {
 	db := common.GetDB()
 	var model Role
-	err := db.Where("id = ?", id).First(&model).Error
+	err := db.Preload("Permissions").Where("id = ?", id).First(&model).Error
 	return model, err
 }
 
@@ -90,7 +90,7 @@ func FindOnePermission(id string) (Permission, error) {
 func FindPermissions() ([]Permission, error) {
 	db := common.GetDB()
 	var model []Permission
-	err := db.Debug().Find(&model).Error
+	err := db.Find(&model).Error
 	return model, err
 }
 
