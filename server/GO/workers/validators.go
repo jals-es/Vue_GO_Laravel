@@ -1,18 +1,15 @@
 package workers
 
 import (
-	"appbar/bars"
 	"appbar/common"
-	"appbar/role_permissions"
-	"appbar/users"
 	"github.com/gin-gonic/gin"
 )
 
 type WorkerValidator struct {
 	Worker struct {
-		User users.UserModel       `form:"bar" json:"user" binding:"required"`
-		Bar  bars.BarModel         `form:"bar" json:"bar" binding:"required"`
-		Role role_permissions.Role `form:"role" json:"role" binding:"required"`
+		User string `form:"user" json:"user" binding:"required"`
+		Bar  string `form:"bar" json:"bar" binding:"required"`
+		Role string `form:"role" json:"role" binding:"required"`
 	} `json:"worker"`
 	workerModel Worker `json:"-"`
 }

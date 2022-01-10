@@ -1,37 +1,31 @@
 package workers
 
 import (
-	"appbar/bars"
 	"appbar/common"
-	"appbar/role_permissions"
-	"appbar/users"
-	"fmt"
 	"gorm.io/gorm/clause"
 )
 
 type Worker struct {
-	User users.UserModel       `gorm:"many2many:workers"`
-	Bar  bars.BarModel         `gorm:"many2many:workers"`
-	Role role_permissions.Role `gorm:"many2many:workers"`
+	User string `gorm:"column:user_id;type:string;primary_key;"`
+	Bar  string `gorm:"column:bar_id;type:string;primary_key"`
+	Role string `gorm:"column:role_id;type:string;primary_key;"`
 }
 
 func FindAllWorkersFromBar(id string) error {
 	db := common.GetDB()
 	var model []Worker
-	err := db.Where(fmt.Sprintf("id = %q", id)).Find(&model).Error
+	err := db.Preload(clause.Associations).Where("bar_id = ?", id).Find(&model).Error
 	return err
 }
 
-func AssignWorkerToBar(data interface{}) error {
+func AssignWorkerToBar(data *Worker) error {
 	db := common.GetDB()
-	err := db.Clauses(clause.OnConflict{
-		UpdateAll: true,
-	}).Create(data).Error
+	err := db.Create(&data).Error
 	return err
 }
 
 func DeleteWorkerFromBar(data *Worker) error {
 	db := common.GetDB()
-	err := db.Model(data).Association("Worker").Delete(data)
+	err := db.Delete(data).Error
 	return err
 }
