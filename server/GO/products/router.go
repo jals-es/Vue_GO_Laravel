@@ -8,4 +8,5 @@ import (
 func ProdsRoutes(router *gin.RouterGroup) {
 	router.Use(users.AuthMiddleware(true))
 	router.POST("/", CreateProds)
+	router.GET("/:slug", GetProds)
 }

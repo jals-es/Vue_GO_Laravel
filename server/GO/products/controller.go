@@ -3,6 +3,8 @@ package products
 import (
 	"github.com/gin-gonic/gin"
 	"appbar/common"
+	"appbar/bars"
+	"appbar/users"
 	// "fmt"
 	"net/http"
 )
@@ -36,32 +38,36 @@ func CreateProds(c *gin.Context){
 		return
 	}
 
-	// for _, thisType := range prodModelValidator.prodTypesModel.Types {
-	// 	var model ProdTypeModel
-
-	// 	model = thisType
-
-	// 	if err := SaveOneType(model); err != nil {
-	// 		my_error := common.NewError("prod", err)
-	
-	// 		c.JSON(http.StatusUnprocessableEntity, my_error)
-	// 		return
-	// 	}
-	// }
-
-	// for _, thisExtra := range prodModelValidator.prodExtrasModel.Extras {
-
-	// 	var model ProdExtraModel
-
-	// 	model = thisExtra
-
-	// 	if err := SaveOneExtra(model); err != nil {
-	// 		my_error := common.NewError("prod", err)
-	
-	// 		c.JSON(http.StatusUnprocessableEntity, my_error)
-	// 		return
-	// 	}
-	// }
-
 	c.JSON(http.StatusCreated, gin.H{"message": "Producto creado correctamente"})
+}
+
+func GetProds(c *gin.Context){
+	slug := c.Param("slug")
+
+	thisBar, err := bars.GetBarBySlug(slug)
+
+	if err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"message": "El bar no existe"})
+		return
+	}
+
+	myUserModel := c.MustGet("my_user_model").(users.UserModel)
+
+	if thisBar.Owner != myUserModel.ID {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"message": "No tienes permisos en este bar"})
+		return
+	}
+
+	prods, err := GetAllProds(thisBar.ID)
+
+	if err != nil {
+		my_error := common.NewError("prod", err)
+
+		c.JSON(http.StatusUnprocessableEntity, my_error)
+		return
+	}
+
+	serializer := AllProdsResponse{prods}
+
+	c.JSON(http.StatusOK, gin.H{"prods": serializer.Response()})
 }

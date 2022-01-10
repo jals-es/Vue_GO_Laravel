@@ -8,7 +8,7 @@ import (
 
 type BarModelValidator struct {
 	Bar struct {
-		Name   	string `form:"name" json:"name" binding:"required,min=8,max=255"`
+		Name   	string `form:"name" json:"name" binding:"required"`
 		Descr  	string `form:"descr" json:"descr" binding:"required"`
 		Lat    	string `form:"lat" json:"lat" binding:"required"`
 		Lon	   	string `form:"lon" json:"lon" binding:"required"`
