@@ -5,14 +5,14 @@ import golangApiService from "@/core/http/golang.api.service";
 
 export default {
     checkAdmin(to, from, next) {
-        console.log(to);
+        // console.log(to);
 
         if (localStorage.getItem("token")) {
 
             golangApiService.get('/api/user/')
                 .then(({ data }) => {
-                    console.log(data);
-                    console.log('correcte');
+                    // console.log(data);
+                    // console.log('correcte');
                     if (data.data == "Usuario verificado") {
                         next();
                     } else {
@@ -27,7 +27,7 @@ export default {
                 })
 
         } else {
-            console.log('no troba token');
+            // console.log('no troba token');
             next("/login");
         }
     }
