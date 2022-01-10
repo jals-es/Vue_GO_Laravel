@@ -3,6 +3,7 @@ import {
   createWebHistory
 } from 'vue-router'
 import Auth from '@/core/check.js'
+import SuperAdminAuth from '@/core/checkSuperAdmin.js'
 const routes = [{
     path: '/',
     redirect: '/login',
@@ -12,23 +13,28 @@ const routes = [{
   {
     path: '/admin/dashboard/',
     component: () => import('@/views/SuperAdminDashboard.vue'),
+    beforeEnter: SuperAdminAuth.checkSuperAdmin
   },
   {
     path: '/admin/messages/',
     component: () => import('@/views/SuperAdminMessagesManagement.vue'),
+    beforeEnter: SuperAdminAuth.checkSuperAdmin
   },
   {
     path: '/admin/bars/',
     component: () => import('@/views/SuperAdminBars.vue'),
+    beforeEnter: SuperAdminAuth.checkSuperAdmin
   },
   {
     path: '/admin/bars/:id',
     component: () => import('@/views/SuperAdminBarManagement.vue'),
+    beforeEnter: SuperAdminAuth.checkSuperAdmin
 
   },
   {
     path: '/admin/incidences/',
     component: () => import('@/views/SuperAdminIncidencesManagement.vue'),
+    beforeEnter: SuperAdminAuth.checkSuperAdmin
   },
   {
     path: '/register',

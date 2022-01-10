@@ -23,18 +23,13 @@ use App\Mail\AdminNotification;
 |
 */
 Route::get('send_test_email', function(){
-    // $email = new AdminNotification();
-    // Mail::to('antonitormo@gmail.com')->send($email);
     dispatch(new App\Jobs\SendEmailJob(env('ADMINMAIL')));
-    // Mail::raw('Sending emails with Mailgun and Laravel is easy!', function($message)
-	// {
-	// 	$message->to('antonitormo@gmail.com');
-    //     $message->subject('Open incidence');
-	// });
 });
     Route::name('api.')->group(function () {
-
         Route::middleware([SuperAdmin::class])->group(function(){
+            Route::get('/check', function () {
+                return response()->json(['status' =>'success', 'data' => 'authorized'], 201);
+            });
             Route::name('message.')->group(function () {
                 Route::post('message', [MessagesController::class, 'store'])->name('store');
                 Route::get('message', [MessagesController::class, 'fetch'])->name('fetch');
@@ -51,25 +46,15 @@ Route::get('send_test_email', function(){
                 Route::get('bars/stats', [BarController::class, 'stats'])->name('stats');
                 Route::get('bars/stats/{slug}', [BarController::class, 'stats'])->name('stats');
                 Route::get('bars/search/{slug}', [BarController::class, 'list'])->name('search');
-
                 Route::get('bars/info/{slug}', [BarController::class, 'info'])->name('info');
-
                 Route::post('bars', [BarController::class, 'create'])->name('create');
-
                 Route::get('token', [BarController::class, 'list'])->name('list');
-
                 Route::get('bars/orders/{id_bar}', [BarController::class, 'orders'])->name('orders');
-
                 Route::get('bars/products/{id_bar}', [ProductsController::class, 'getProducts'])->name('getProducts');
-
             });
-
             Route::get('charts/first', [ChartsController::class, 'getFirstChartData'])->name('firstChart');
             Route::get('charts/second', [ChartsController::class, 'getSecondChartData'])->name('secondChart');
-
-
             Route::get('userData', [AuthController::class, 'userData'])->name('userData');
-
         });
         Route::post('auth', [AuthController::class, 'auth'])->name('auth');
 
