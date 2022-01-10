@@ -91,3 +91,9 @@ func Login(c *gin.Context){
 		c.JSON(http.StatusCreated, gin.H{ "user": serializer.Response()})
 	}
 }
+
+func CheckToken(c *gin.Context){
+	// myUserModel := c.MustGet("my_user_model").(UserModel)
+
+	c.JSON(http.StatusCreated, gin.H{ "data": "Usuario verificado" })
+}

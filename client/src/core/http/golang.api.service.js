@@ -5,6 +5,10 @@ export const httpClient = axios.create({
     baseURL: coreConfig.GO_URL
 })
 
+if (localStorage.getItem("token")) {
+    httpClient.defaults.headers.common['Authorization'] = "Token " + localStorage.getItem("token");
+}
+
 const golangApiService = {
     get(path) {
         return httpClient.get(path)

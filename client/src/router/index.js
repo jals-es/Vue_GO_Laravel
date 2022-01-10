@@ -1,10 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router'
-const routes = [
-  {
+import {
+  createRouter,
+  createWebHistory
+} from 'vue-router'
+import Auth from '@/core/check.js'
+const routes = [{
     path: '/',
-    redirect: '/home',
-    component: () => import('@/views/Home.vue')
-
+    redirect: '/login',
+    component: () =>
+      import('@/views/Home.vue')
   },
   {
     path: '/admin/dashboard/',
@@ -32,10 +35,21 @@ const routes = [
     component: () => import('@/views/Register')
   },
   {
-    path:'/login',
+    path: '/login',
     component: () => import('@/views/Login')
+  },
+  {
+    path: '/bars',
+    component: () =>
+      import('@/views/YourBars'),
+    beforeEnter: Auth.checkAdmin
+  },
+  {
+    path: '/bars/createBars',
+    component: () =>
+      import('@/views/CreateBars'),
+    beforeEnter: Auth.checkAdmin
   }
-
 ]
 
 const router = createRouter({
