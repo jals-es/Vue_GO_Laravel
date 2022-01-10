@@ -28,7 +28,8 @@ func CreateRole(c *gin.Context) {
 
 func ListRoles(c *gin.Context) {
 	data, _ := FindRoles()
-	c.JSON(http.StatusAccepted, gin.H{"roles": data})
+	serializer := MultiRoleSerializer{c, data}
+	c.JSON(http.StatusAccepted, gin.H{"roles": serializer.Response()})
 }
 
 func GetDataFromRole(c *gin.Context) {
@@ -38,7 +39,8 @@ func GetDataFromRole(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Can't get Role"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"role": data})
+	serializer := RoleSerializer{c, data}
+	c.JSON(http.StatusOK, gin.H{"role": serializer.Response()})
 
 }
 
@@ -71,7 +73,8 @@ func CreatePermission(c *gin.Context) {
 
 func ListPermissions(c *gin.Context) {
 	data, _ := FindPermissions()
-	c.JSON(http.StatusOK, gin.H{"permissions": data})
+	serializer := MultiPermSerializer{c, data}
+	c.JSON(http.StatusOK, gin.H{"permissions": serializer.Response()})
 	return
 }
 
@@ -83,8 +86,8 @@ func GetDataFromPermission(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Can't get permission"})
 		return
 	}
-
-	c.JSON(http.StatusOK, gin.H{"data": data})
+	serializer := PermSerializer{c, data}
+	c.JSON(http.StatusOK, gin.H{"data": serializer.Response()})
 }
 
 func DeletePermission(c *gin.Context) {
