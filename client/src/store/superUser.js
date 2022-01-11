@@ -163,17 +163,53 @@ export const superUser = {
                   });
             },
             createIncidence(store, formData){
-                console.log(store);
-                console.log(formData);
                 laravelApiService.post('api/incidence', formData)
                 .then(({ data }) => {
                     console.log(data);
+                    store.dispatch("getIncidences");
+
                 })
                 .catch((error) => {
                     console.log("ERROR: createIncidence");
                     console.log(error);
                   });
             },
+            closeIncidence(store, formData){
+                console.log(formData);
+                laravelApiService.patch('api/incidence', formData)
+                .then(({ data }) => {
+                    store.dispatch("getIncidences");
+                    console.log(data);
+                })
+                .catch((error) => {
+                    console.log("ERROR: closeIncidence");
+                    console.log(error);
+                  });
+            },
+            deleteIncidence(store, formData){
+                laravelApiService.delete('api/incidence/'+formData)
+                .then(({ data }) => {
+                    console.log(data);
+                    store.dispatch("getIncidences");
+                })
+                .catch((error) => {
+                    console.log("ERROR: createIncidence");
+                    console.log(error);
+                  });
+            },
+            newMessage(store, formData){
+                laravelApiService.post('api/message', formData)
+                .then(({ data }) => {
+                    console.log(data);
+                    // store.dispatch("getIncidences");
+
+                })
+                .catch((error) => {
+                    console.log("ERROR: createIncidence");
+                    console.log(error);
+                  });
+            },
+
 
         },
         getters: {
@@ -204,10 +240,5 @@ export const superUser = {
             getIncidences(state) {
                 return state.incidences;
             }
-
-
-
-            // getBarFromId: state => id => state.bars.find(bar => bar.id = id),
-            // getOrderFromId: state => id => state.order.find(order => order.id = id),
         }
     }

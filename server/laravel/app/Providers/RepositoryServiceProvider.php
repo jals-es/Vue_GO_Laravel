@@ -5,10 +5,13 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Repositories\ProductRepository;
+use App\Traits\UserTrait;
+use Illuminate\Support\Facades\Gate;
 use App\Repositories\IncidenceRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
+    use UserTrait;
     /**
      * Register services.
      *
@@ -27,6 +30,11 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Gate::define('isOwner', function($incidence) {
+        //     // return "hola";
+        //     return true;
+        //     // return false;
+        //     // return $incidence->owner == self::getId();
+        //  });
     }
 }

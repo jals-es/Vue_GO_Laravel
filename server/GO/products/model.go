@@ -123,3 +123,87 @@ func SaveExtras(data []ProdExtraModel) error {
 	
 	return err
 }
+
+type AllProdsModel struct{
+	ID			uuid.UUID
+	ID_bar		uuid.UUID
+	ID_category	string
+	Name		string
+	Descr		string
+	Status		int
+	Photo		string
+	Slug		string
+	Types		[]ProdTypeModel
+	Extras		[]ProdExtraModel
+}
+
+func GetAllProds(id_bar uuid.UUID) ([]AllProdsModel, error){
+	
+	var response []AllProdsModel 
+	var prods []ProdModel
+
+	db := common.GetDB()
+	tx := db.Begin()
+
+	tx.Where("id_bar = ?", id_bar).Find(&prods)
+	
+	for _, prod := range prods {
+		var newProd AllProdsModel
+
+		newProd.ID = prod.ID
+		newProd.ID_bar = prod.ID_bar
+		newProd.ID_category = prod.ID_category
+		newProd.Name = prod.Name
+		newProd.Descr = prod.Descr
+		newProd.Status = prod.Status
+		newProd.Photo = prod.Photo
+		newProd.Slug = prod.Slug
+
+		var types []ProdTypeModel
+		tx.Where("id_prod = ?", prod.ID).Find(&types)
+
+		var extras []ProdExtraModel
+		tx.Where("id_prod = ?", prod.ID).Find(&extras)
+
+		newProd.Types = types
+		newProd.Extras = extras
+
+		response = append(response, newProd)
+	}
+
+	err := tx.Commit().Error
+
+	return response, err
+}
+
+func GetProd(slug string) (ProdModel, error){
+
+	var prod ProdModel
+
+	db := common.GetDB()
+
+	err := db.Where("slug = ?", slug).Find(&prod).Error
+
+	return prod, err
+}
+
+func DelProd(prod ProdModel) error{ 
+
+	db := common.GetDB()
+
+	tx := db.Begin()
+
+	tx.Delete(&prod)
+
+	var types []ProdTypeModel
+	tx.Where("id_prod = ?", prod.ID).Find(&types)
+	tx.Delete(&types)
+
+	var extras []ProdExtraModel
+	tx.Where("id_prod = ?", prod.ID).Find(&extras)
+	tx.Delete(&extras)
+
+	err := tx.Commit().Error
+
+	return err
+}

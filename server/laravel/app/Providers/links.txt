@@ -1,0 +1,2 @@
+https://github.com/antonitg/nextjs-blog-practica-main/tree/nextjs-blog-practica_workflow
+https://nextjs-blog-practica-main.vercel.app/

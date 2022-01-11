@@ -94,3 +94,14 @@ func GetBarBySlug(thisSlug string) (BarModel, error){
 
 	return model, err
 }
+
+func GetBarByID(thisID uuid.UUID) (BarModel, error){
+
+	var model BarModel
+
+	db := common.GetDB()
+
+	err := db.Where("id = ?", thisID).Take(&model).Error
+
+	return model, err
+}
