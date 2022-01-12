@@ -7,13 +7,22 @@ export function prods() {
     const getProds = async(slug) => {
         let getProds = await golangApiService.get("/api/prod/" + slug + "/")
         if (getProds) {
-            console.log(getProds.data.prods)
-            Object.assign(products.prods, getProds.data.prods)
+            products.prods = getProds.data.prods
+        }
+    }
+
+    const deleteProd = async(slug, bar_slug) => {
+        let delProds = await golangApiService.delete("/api/prod/" + slug + "/")
+        if (delProds) {
+            console.log(delProds.data.message)
+            console.log(bar_slug)
+                // getProds(bar_slug)
         }
     }
 
     return {
         getProds,
+        deleteProd,
         products
     }
 }

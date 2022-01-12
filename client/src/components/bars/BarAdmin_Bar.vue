@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="`/${bar.slug}/admin`" class="bar">
+    <router-link :to="`/${bar.slug}/admin/`" class="bar">
         <span class="name">{{ bar.name }}</span>
         <span class="city">{{ bar.city }}</span>
         <span class="rol">{{ bar.rol }}</span>
