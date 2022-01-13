@@ -27,8 +27,7 @@
                 {{ error.$message }}
               </p>
             </div>
-          </div>
-          <div class="form-floating">
+
             <input type="password" class="form-control"
                    :class="{'is-invalid': this.v$.form.passwd.$error, 'is-valid': !this.v$.form.passwd.$error && !this.v$.form.passwd.$invalid}"
                    @change.capture="this.v$.$touch()"
@@ -111,7 +110,6 @@ export default {
     function submit() {
       if (!this.v$.$error) {
         store.dispatch('userStore/registerUser', state.form).then(data => {
-          console.log(data)
           state.alertData.open = true
           state.alertData.message = data.data.message
           state.alertData.status = data.status

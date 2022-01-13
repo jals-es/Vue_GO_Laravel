@@ -74,16 +74,15 @@ export default {
     }
     const v$ = useVuelidate(rules, state)
 
-    function submit() {
+    async function submit() {
       this.v$.$validate()
       if (!this.v$.$error) {
-        store.dispatch('userStore/loginUser', state.user)
-            .then(data => {
-                  console.log(data)
-                  store.commit('userStore/fillUser', data.data.user)
+        await store.dispatch('userStore/loginUser', state.user)
+            .then((data) => {
                   state.alertData.open = true
                   state.alertData.status = data.status
-                  store.getters['userStore/getSuperAdmin'] === true? router.push('/admin/dashboard') : router.push('/bars')
+                  store.getters['userStore/getSuperAdmin'] === true ? router.push('/admin/dashboard') : router.push('/bars')
+
                 }
             )
       }
