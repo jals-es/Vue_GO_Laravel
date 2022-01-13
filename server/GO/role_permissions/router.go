@@ -9,8 +9,10 @@ func PrRoutes(router *gin.RouterGroup) {
 	router.Use(users.AuthMiddleware(false))
 
 	router.POST("/new-role", CreateRole)
+	router.POST("/save", SaveRole)
 	router.GET("/roles", ListRoles)
 	router.DELETE("/role/*id", DisableRole)
+	router.GET("/enable/*id", EnableRole)
 	router.GET("/role/*id", GetDataFromRole)
 
 	router.POST("/new-permission", CreatePermission)

@@ -26,6 +26,22 @@ func CreateRole(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"message": "Role Created"})
 }
 
+func SaveRole(c *gin.Context) {
+	roleValidator := NewRoleValidator()
+
+	if err := roleValidator.Bind(c); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"message": err.Error()})
+		return
+	}
+	if err := SaveOne(&roleValidator.roleModel); err != nil {
+		roleError := common.NewError("role", err)
+		c.JSON(http.StatusUnprocessableEntity, roleError)
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "Role Saved"})
+}
+
 func ListRoles(c *gin.Context) {
 	data, _ := FindRoles()
 	serializer := MultiRoleSerializer{c, data}
@@ -52,6 +68,15 @@ func DisableRole(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Role has been disabled"})
+}
+func EnableRole(c *gin.Context) {
+	id := strings.ReplaceAll(c.Param("id"), "/", "")
+
+	if err := UseRole(id); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Role has been enabled"})
 }
 
 // Permission Controller Logic

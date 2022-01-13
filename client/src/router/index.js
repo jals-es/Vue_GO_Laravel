@@ -67,6 +67,10 @@ const routes = [{
         component: () =>
             import ('@/views/DashboardBar'),
         beforeEnter: Auth.checkAdmin
+    },
+    {
+        path:'/roles',
+        component: () => import('@/views/RP-Home')
     }
 ]
 

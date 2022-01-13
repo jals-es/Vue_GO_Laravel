@@ -10,7 +10,7 @@ import (
 type Role struct {
 	ID          uuid.UUID    `gorm:"column:id;type:uuid;primary_key;"`
 	Name        string       `gorm:"column:name"`
-	Status      int          `gorm:"column:status"`
+	Status      int          `gorm:"column:status; force"`
 	Permissions []Permission `gorm:"many2many:rol_permissions;"`
 }
 
@@ -75,6 +75,13 @@ func DeleteRole(id string) error {
 	db := common.GetDB()
 	var model Role
 	err := db.Model(&model).Where("id = ?", id).Update("status", 1).Error
+	return err
+}
+func UseRole(id string) error {
+	db := common.GetDB()
+	var model Role
+
+	err := db.Debug().Model(&model).Where("id = ?", id).Update("status", 0).Error
 	return err
 }
 

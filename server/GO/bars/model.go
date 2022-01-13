@@ -2,37 +2,37 @@ package bars
 
 import (
 	"appbar/common"
-	"gorm.io/gorm"
-	"github.com/satori/go.uuid"
 	"github.com/gosimple/slug"
+	"github.com/satori/go.uuid"
+	"gorm.io/gorm"
 	// "fmt"
 )
 
 type BarRolModel struct {
-	ID		uuid.UUID `gorm:"column:id;type:uuid;primary_key;"`
-	Name	string `gorm:"column:name"`
-	Slug	string `gorm:"column:slug;unique"`
-	Descr	string `gorm:"column:descr"`
-	Lat		string `gorm:"column:lat"`
-	Lon		string `gorm:"column:lon"`
-	City	string `gorm:"column:city"`
-	Address	string `gorm:"column:address"`
-	Status	int    `gorm:"column:status"`
-	Owner	uuid.UUID `gorm:"column:owner"`
-	Rol 	string `gorm:"column:rname"`
+	ID      uuid.UUID `gorm:"column:id;type:uuid;primary_key;"`
+	Name    string    `gorm:"column:name"`
+	Slug    string    `gorm:"column:slug;unique"`
+	Descr   string    `gorm:"column:descr"`
+	Lat     string    `gorm:"column:lat"`
+	Lon     string    `gorm:"column:lon"`
+	City    string    `gorm:"column:city"`
+	Address string    `gorm:"column:address"`
+	Status  int       `gorm:"column:status"`
+	Owner   uuid.UUID `gorm:"column:owner"`
+	Rol     string    `gorm:"column:rname"`
 }
 
 type BarModel struct {
-	ID		uuid.UUID `gorm:"column:id;type:uuid;primary_key;"`
-	Name	string `gorm:"column:name"`
-	Slug	string `gorm:"column:slug;unique"`
-	Descr	string `gorm:"column:descr"`
-	Lat		string `gorm:"column:lat"`
-	Lon		string `gorm:"column:lon"`
-	City	string `gorm:"column:city"`
-	Address	string `gorm:"column:address"`
-	Status	int    `gorm:"column:status"`
-	Owner	uuid.UUID `gorm:"column:owner"`
+	ID      uuid.UUID `gorm:"column:id;type:uuid;primary_key;"`
+	Name    string    `gorm:"column:name"`
+	Slug    string    `gorm:"column:slug;unique"`
+	Descr   string    `gorm:"column:descr"`
+	Lat     string    `gorm:"column:lat"`
+	Lon     string    `gorm:"column:lon"`
+	City    string    `gorm:"column:city"`
+	Address string    `gorm:"column:address"`
+	Status  int       `gorm:"column:status"`
+	Owner   uuid.UUID `gorm:"column:owner"`
 }
 
 type Tabler interface {
@@ -84,7 +84,7 @@ func GetBars(id uuid.UUID) ([]BarRolModel, error) {
 	return models, err
 }
 
-func GetBarBySlug(thisSlug string) (BarModel, error){
+func GetBarBySlug(thisSlug string) (BarModel, error) {
 
 	var model BarModel
 
@@ -95,7 +95,7 @@ func GetBarBySlug(thisSlug string) (BarModel, error){
 	return model, err
 }
 
-func GetBarByID(thisID uuid.UUID) (BarModel, error){
+func GetBarByID(thisID uuid.UUID) (BarModel, error) {
 
 	var model BarModel
 
