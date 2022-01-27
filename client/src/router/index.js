@@ -67,6 +67,12 @@ const routes = [{
         component: () =>
             import ('@/views/DashboardBar'),
         beforeEnter: Auth.checkAdmin
+    },
+    {
+        path: '/:slug/admin/product-create',
+        component: () =>
+            import ('@/views/DashboardBar_CreateProd'),
+        beforeEnter: Auth.checkAdmin
     }
 ]
 

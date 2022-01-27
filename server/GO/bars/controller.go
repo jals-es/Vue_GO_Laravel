@@ -39,3 +39,24 @@ func GetYourBars(c *gin.Context){
 	serializer := BarsWorkSerializer{c, myBars}
 	c.JSON(http.StatusOK, gin.H{"bars": serializer.Response()})
 }
+
+func GetBarInfo(c *gin.Context){
+	slug := c.Param("slug")
+
+	thisBar, err := GetBarBySlug(slug)
+
+	if err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"message": "El bar no existe"})
+		return
+	}
+
+	myUserModel := c.MustGet("my_user_model").(users.UserModel)
+
+	if thisBar.Owner != myUserModel.ID {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"message": "No tienes permisos en este bar"})
+		return
+	}
+
+	serializer := BarSerializer{c, thisBar}
+	c.JSON(http.StatusOK, gin.H{"bar": serializer.Response()})
+}
