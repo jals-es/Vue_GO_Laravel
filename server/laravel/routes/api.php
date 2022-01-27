@@ -22,9 +22,9 @@ use App\Mail\AdminNotification;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('send_test_email', function(){
-    dispatch(new App\Jobs\SendEmailJob(env('ADMINMAIL')));
-});
+// Route::get('send_test_email', function(){
+//     dispatch(new App\Jobs\SendEmailJob(env('ADMINMAIL')));
+// });
     Route::name('api.')->group(function () {
         Route::middleware([SuperAdmin::class])->group(function(){
             Route::get('/check', function () {

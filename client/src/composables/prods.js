@@ -2,7 +2,7 @@ import golangApiService from "@/core/http/golang.api.service";
 import { reactive } from 'vue';
 export function prods() {
 
-    const products = reactive({ prods: [] })
+    const products = reactive({ prods: []  })
 
     const getProds = async(slug) => {
         let getProds = await golangApiService.get("/api/prod/" + slug + "/")

@@ -202,15 +202,12 @@ export const superUser = {
                 .then(({ data }) => {
                     console.log(data);
                     // store.dispatch("getIncidences");
-
                 })
                 .catch((error) => {
                     console.log("ERROR: createIncidence");
                     console.log(error);
                   });
             },
-
-
         },
         getters: {
             getUser(state) {
