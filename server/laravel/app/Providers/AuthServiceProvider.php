@@ -4,9 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-
+use App\Traits\UserTrait;
 class AuthServiceProvider extends ServiceProvider
 {
+    use UserTrait;
     /**
      * The policy mappings for the application.
      *
@@ -24,6 +25,13 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        Gate::define('isAdmin', function ($incidence) {
+            // return "hola";
+            return true;
+            // return false;
+            // return $incidence->owner == self::getId();
+         });
 
         //
     }

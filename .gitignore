@@ -1,0 +1,8 @@
+/*/node_modules
+.idea
+*.png
+*.jpg
+*.jpeg
+*/uploads/*
+faltafer.txt
+*/database.go

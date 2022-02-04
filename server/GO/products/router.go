@@ -2,12 +2,12 @@ package products
 
 import (
 	"github.com/gin-gonic/gin"
+	"appbar/users"
 )
 
-func ProductRoutes(router *gin.RouterGroup) {
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Welcome to PRODUCTS",
-		})
-	})
+func ProdsRoutes(router *gin.RouterGroup) {
+	router.Use(users.AuthMiddleware(true))
+	router.POST("/", CreateProds)
+	router.GET("/:slug/", GetProds)
+	router.DELETE("/:slug/", DeleteProd)
 }

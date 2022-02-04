@@ -8,20 +8,22 @@ use Symfony\Component\HttpFoundation\Response;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Support\Facades\DB;
-use Mockery\Undefined;
+use App\Http\Requests\IncidenceRequest;
 
 class AuthController extends Controller
 {
+
     public function auth(Request $request)
     {
         //Get the info
         $isSuperAdmin = DB::table('superadmins')
             ->leftJoin('users', 'users.id', '=', 'superadmins.id_user')
-            ->where('users.name', '=', $request->user)
+            ->where('users.email', '=', $request->user)
             ->where('users.passwd', '=', $request->passwd)
             ->get();
         if (!$isSuperAdmin->isEmpty()) {
             //User exists
+
             if ($request->ip() == env("ALLOWED_SERVER")) {
                 //Its from a safe server
                 //Get the key
@@ -44,7 +46,9 @@ class AuthController extends Controller
                 //User can login but not from a safe server
                 return response()->json([
                     'success' => false,
-                    'message' => 'Forbidden'
+                    'message' => 'Forbidden',
+                    'ip' => $request->ip(),
+                    'acceped' => env("ALLOWED_SERVER")
                 ], 403);
             }
         } else {
@@ -54,6 +58,25 @@ class AuthController extends Controller
                 'message' => 'Invalid Credentials',
             ], 403);
         }
+    }
+    public function userData(Request $request) {
+        $decoded = JWT::decode($request->bearerToken(), new Key(env("JWT_SUPERADMIN"), 'HS256'));
+        $data = DB::table('users')
+        ->select('name','email','photo')
+        ->where('id', '=', $decoded->token_superadmin)
+        ->get();
+        return response()->json([
+            'success' => true,
+            'message' => $data,
+        ], 200);
+    }
+    public function userId($jwt) {
+        $decoded = JWT::decode($jwt, new Key(env("JWT_SUPERADMIN"), 'HS256'));
+        $data = DB::table('users')
+        ->select('id')
+        ->where('id', '=', $decoded->token_superadmin)
+        ->get();
+        return $data;
     }
     public function check($request)
     {
